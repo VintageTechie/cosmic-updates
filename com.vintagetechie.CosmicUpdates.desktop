@@ -1,7 +1,8 @@
 [Desktop Entry]
-Name=APT Update Checker
+Name=Updates
+Comment=Universal package update checker applet
 Type=Application
-Exec=cosmic-apt-checker
+Exec=cosmic-updates
 Terminal=false
 Categories=COSMIC;
 Keywords=COSMIC;Iced;

@@ -4,8 +4,8 @@
 
 set -e
 
-VERSION=${1:-"0.1.4"}
-PACKAGE_NAME="cosmic-apt-checker"
+VERSION=${1:-"0.3.0"}
+PACKAGE_NAME="cosmic-updates"
 ARCH="amd64"
 DEB_FILE="${PACKAGE_NAME}_${VERSION}_${ARCH}.deb"
 
@@ -29,7 +29,7 @@ CURRENT_BRANCH=$(git branch --show-current)
 git stash push -m "Auto-stash before switching to pages branch"
 
 # Switch to pages branch
-echo "📝 Switching to pages branch..."
+echo "🔀 Switching to pages branch..."
 git checkout pages
 
 # Create directory structure at ROOT level
@@ -51,12 +51,12 @@ cd dists/stable
 
 cat > Release << EOF
 Origin: VintageTechie
-Label: COSMIC APT Checker
+Label: COSMIC Updates
 Suite: stable
 Codename: stable
 Architectures: ${ARCH}
 Components: main
-Description: APT update checker applet for COSMIC desktop
+Description: Universal package update checker applet for COSMIC desktop
 Date: $(date -Ru)
 EOF
 
@@ -94,7 +94,7 @@ git status --short
 
 # Commit and push
 echo ""
-echo "📤 Committing changes..."
+echo "💾 Committing changes..."
 git add pool/ dists/ .gitignore
 git commit -m "Release ${PACKAGE_NAME} version ${VERSION}"
 
@@ -119,10 +119,10 @@ echo ""
 echo "✅ Published successfully!"
 echo ""
 echo "📦 Package available at:"
-echo "  https://vintagetechie.codeberg.page/cosmic-apt-checker/pool/main/${PACKAGE_NAME}_${VERSION}_${ARCH}.deb"
+echo "  https://vintagetechie.codeberg.page/cosmic-updates/pool/main/${PACKAGE_NAME}_${VERSION}_${ARCH}.deb"
 echo ""
-echo "🔄 Wait 5-10 minutes for Codeberg Pages to rebuild, then users can:"
+echo "📄 Wait 5-10 minutes for Codeberg Pages to rebuild, then users can:"
 echo "  sudo apt update"
-echo "  sudo apt install cosmic-apt-checker"
+echo "  sudo apt install cosmic-updates"
 echo ""
 echo "📋 Current version: ${VERSION}"

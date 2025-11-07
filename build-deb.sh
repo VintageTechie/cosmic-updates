@@ -1,16 +1,14 @@
 #!/bin/bash
-# Build .deb package for cosmic-apt-checker
+# Build .deb package for cosmic-updates
 
 set -e  # Exit on error
 
-VERSION=${1:-"0.1.2"}
-ICON_VERSION=${2:-"original"}  # original, larger, or symbolic
-PACKAGE_NAME="cosmic-apt-checker"
+VERSION=${1:-"0.3.0"}
+PACKAGE_NAME="cosmic-updates"
 ARCH="amd64"
 DEB_NAME="${PACKAGE_NAME}_${VERSION}_${ARCH}.deb"
 
 echo "🔨 Building ${DEB_NAME}..."
-echo "📐 Icon version: ${ICON_VERSION}"
 echo ""
 
 # Step 1: Build the release binary
@@ -29,30 +27,14 @@ mkdir -p debian/DEBIAN
 
 # Step 3: Copy files to debian structure
 echo "📋 Copying files..."
-cp target/release/cosmic-apt-checker debian/usr/bin/
-chmod 0755 debian/usr/bin/cosmic-apt-checker
+cp target/release/cosmic-updates debian/usr/bin/
+chmod 0755 debian/usr/bin/cosmic-updates
 
-cp dev.vintagetechie.CosmicAptChecker.desktop debian/usr/share/applications/
-chmod 0644 debian/usr/share/applications/dev.vintagetechie.CosmicAptChecker.desktop
+cp com.vintagetechie.CosmicUpdates.desktop debian/usr/share/applications/
+chmod 0644 debian/usr/share/applications/com.vintagetechie.CosmicUpdates.desktop
 
-# Select icon version
-case $ICON_VERSION in
-    "larger")
-        echo "📐 Using larger (64x64) icons..."
-        cp icons/hicolor/scalable/apps/tux-normal-v2.svg debian/usr/share/icons/hicolor/scalable/apps/tux-normal.svg
-        cp icons/hicolor/scalable/apps/tux-alert-v2.svg debian/usr/share/icons/hicolor/scalable/apps/tux-alert.svg
-        ;;
-    "symbolic")
-        echo "📐 Using symbolic (simplified) icons..."
-        cp icons/hicolor/scalable/apps/tux-normal-symbolic.svg debian/usr/share/icons/hicolor/scalable/apps/tux-normal.svg
-        cp icons/hicolor/scalable/apps/tux-alert-symbolic.svg debian/usr/share/icons/hicolor/scalable/apps/tux-alert.svg
-        ;;
-    *)
-        echo "📐 Using original (48x48) icons..."
-        cp icons/hicolor/scalable/apps/tux-normal.svg debian/usr/share/icons/hicolor/scalable/apps/
-        cp icons/hicolor/scalable/apps/tux-alert.svg debian/usr/share/icons/hicolor/scalable/apps/
-        ;;
-esac
+cp icons/hicolor/scalable/apps/tux-normal.svg debian/usr/share/icons/hicolor/scalable/apps/
+cp icons/hicolor/scalable/apps/tux-alert.svg debian/usr/share/icons/hicolor/scalable/apps/
 chmod 0644 debian/usr/share/icons/hicolor/scalable/apps/*.svg
 
 echo "✅ Files copied"
@@ -66,11 +48,12 @@ Version: ${VERSION}
 Section: utils
 Priority: optional
 Architecture: ${ARCH}
-Maintainer: VintageTechie
-Description: APT update checker applet for COSMIC desktop
- A COSMIC desktop applet that monitors APT package updates
- with a custom penguin mascot. Shows updates in panel,
- allows one-click upgrades, and auto-checks every 30 minutes.
+Maintainer: VintageTechie <https://vintagetechie.com>
+Description: Universal package update checker applet for COSMIC desktop
+ A COSMIC desktop applet that monitors package updates from multiple
+ package managers (APT, Pacman) with a custom penguin mascot.
+ Shows updates in panel, allows one-click upgrades, and auto-checks
+ every 30 minutes.
 Depends: cosmic-panel
 EOF
 
@@ -124,11 +107,6 @@ echo "🎉 Ready to install or deploy!"
 echo ""
 echo "To test locally:"
 echo "  sudo apt install ./${DEB_NAME}"
-echo ""
-echo "Usage for different icon sizes:"
-echo "  ./build-deb.sh 0.1.3 original   # 48x48 (current)"
-echo "  ./build-deb.sh 0.1.3 larger     # 64x64 with bolder strokes"
-echo "  ./build-deb.sh 0.1.3 symbolic   # Simplified for tiny panels"
 echo ""
 echo "To remove package files from debian/ (keep the .deb):"
 echo "  rm -rf debian/usr debian/DEBIAN/postinst debian/DEBIAN/postrm"

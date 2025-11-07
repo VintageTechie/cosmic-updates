@@ -2,7 +2,8 @@
 //!
 //! This applet monitors APT package updates and displays them in the COSMIC panel.
 //! It provides a visual indicator when updates are available and allows one-click upgrades.
-
+mod package_manager;
+use package_manager::{Package, PackageManager};
 use cosmic::app::{Core, Task};
 use cosmic::iced::platform_specific::shell::commands::popup::{destroy_popup, get_popup};
 use cosmic::iced::{Alignment, Length, Limits, Subscription};
@@ -17,7 +18,7 @@ const ICON_NORMAL: &[u8] = include_bytes!("../icons/hicolor/scalable/apps/tux-no
 const ICON_ALERT: &[u8] = include_bytes!("../icons/hicolor/scalable/apps/tux-alert.svg");
 
 /// Unique application identifier for the COSMIC desktop
-const APP_ID: &str = "dev.vintagetechie.CosmicUpdates";
+const APP_ID: &str = "com.vintagetechie.CosmicUpdates";
 
 /// Application version
 const VERSION: &str = "0.2.0";
@@ -27,35 +28,22 @@ fn main() -> cosmic::iced::Result {
     cosmic::applet::run::<UpdateChecker>(())
 }
 
-/// Represents a package that has an available update
-#[derive(Debug, Clone)]
-struct Package {
-    /// Package name (e.g., "firefox")
-    name: String,
-    /// Currently installed version
-    current_version: String,
-    /// New version available for upgrade
-    new_version: String,
-}
-
 /// Main application state for the APT checker applet
 struct UpdateChecker {
-    /// COSMIC core - provides applet infrastructure
     core: Core,
-    /// Optional popup window ID (Some when popup is open)
     popup: Option<WindowId>,
-    /// List of packages with available updates
     packages: Vec<Package>,
-    /// True when checking for updates
     checking: bool,
-    /// True when upgrade is in progress
     upgrading: bool,
-    /// Error message if any operation failed
     error: Option<String>,
+    package_manager:PackageManager,
 }
 
 impl Default for UpdateChecker {
     fn default() -> Self {
+        let package_manager = package_manager::detect_package_manager()
+            .expect("No supported package manager found");
+        
         Self {
             core: Core::default(),
             popup: None,
@@ -63,6 +51,7 @@ impl Default for UpdateChecker {
             checking: false,
             upgrading: false,
             error: None,
+            package_manager,
         }
     }
 }
@@ -160,8 +149,9 @@ impl Application for UpdateChecker {
                 // Start checking for updates
                 self.checking = true;
                 self.error = None;
+                let pm = self.package_manager.clone();
                 Task::perform(
-                    check_apt_updates(),
+                    async move { pm.check_updates().await },
                     |result| cosmic::Action::App(Message::UpdatesFound(result))
                 )
             }
@@ -182,8 +172,9 @@ impl Application for UpdateChecker {
             Message::Upgrade => {
                 // Start the upgrade process
                 self.error = None;
+                let pm = self.package_manager.clone();
                 Task::perform(
-                    run_apt_upgrade(),
+                    async move { pm.run_upgrade().await },
                     |result| cosmic::Action::App(Message::UpgradeStarted(result))
                 )
             }
@@ -202,8 +193,9 @@ impl Application for UpdateChecker {
             }
             Message::CheckUpgradeStatus => {
                 // Poll to see if upgrade is still running
+                let pm = self.package_manager.clone();
                 Task::perform(
-                    check_apt_running(),
+                    async move { pm.is_running().await },
                     |is_running| cosmic::Action::App(Message::UpgradeStatusChecked(is_running))
                 )
             }
@@ -420,260 +412,6 @@ impl Application for UpdateChecker {
 
         content.into()
     }
-}
-
-/// Check for available APT package updates
-///
-/// If DEBUG_APT_CHECKER environment variable is set, returns fake test data.
-/// Otherwise, runs `apt list --upgradable` and parses the output.
-///
-/// # Returns
-/// * `Ok(Vec<Package>)` - List of packages with available updates
-/// * `Err(String)` - Error message if the check failed
-async fn check_apt_updates() -> Result<Vec<Package>, String> {
-    // Check for debug mode - returns fake data for testing
-    if std::env::var("DEBUG_APT_CHECKER").is_ok() {
-        return Ok(vec![
-            Package {
-                name: "firefox".to_string(),
-                current_version: "120.0".to_string(),
-                new_version: "121.0".to_string(),
-            },
-            Package {
-                name: "libcosmic".to_string(),
-                current_version: "0.1.0".to_string(),
-                new_version: "0.2.0".to_string(),
-            },
-            Package {
-                name: "rust-analyzer".to_string(),
-                current_version: "2024-01-01".to_string(),
-                new_version: "2024-02-01".to_string(),
-            },
-            Package {
-                name: "linux-image-generic".to_string(),
-                current_version: "6.5.0.14".to_string(),
-                new_version: "6.5.0.15".to_string(),
-            },
-            Package {
-                name: "systemd".to_string(),
-                current_version: "255.2-1".to_string(),
-                new_version: "255.4-1".to_string(),
-            },
-            Package {
-                name: "libc6".to_string(),
-                current_version: "2.39-0ubuntu8".to_string(),
-                new_version: "2.39-0ubuntu8.1".to_string(),
-            },
-            Package {
-                name: "python3".to_string(),
-                current_version: "3.12.3-0".to_string(),
-                new_version: "3.12.4-0".to_string(),
-            },
-            Package {
-                name: "curl".to_string(),
-                current_version: "8.5.0-2".to_string(),
-                new_version: "8.6.0-1".to_string(),
-            },
-            Package {
-                name: "git".to_string(),
-                current_version: "2.43.0".to_string(),
-                new_version: "2.44.0".to_string(),
-            },
-            Package {
-                name: "vim".to_string(),
-                current_version: "9.0.2048".to_string(),
-                new_version: "9.1.0000".to_string(),
-            },
-            Package {
-                name: "gcc".to_string(),
-                current_version: "13.2.0-7".to_string(),
-                new_version: "13.2.0-8".to_string(),
-            },
-            Package {
-                name: "make".to_string(),
-                current_version: "4.3-4.1".to_string(),
-                new_version: "4.3-4.2".to_string(),
-            },
-            Package {
-                name: "bash".to_string(),
-                current_version: "5.2.21-2".to_string(),
-                new_version: "5.2.21-3".to_string(),
-            },
-            Package {
-                name: "openssh-client".to_string(),
-                current_version: "9.6p1-3".to_string(),
-                new_version: "9.7p1-1".to_string(),
-            },
-            Package {
-                name: "wget".to_string(),
-                current_version: "1.21.4-1".to_string(),
-                new_version: "1.21.4-2".to_string(),
-            },
-            Package {
-                name: "tar".to_string(),
-                current_version: "1.35+dfsg-3".to_string(),
-                new_version: "1.35+dfsg-4".to_string(),
-            },
-            Package {
-                name: "gzip".to_string(),
-                current_version: "1.12-1".to_string(),
-                new_version: "1.13-1".to_string(),
-            },
-            Package {
-                name: "perl".to_string(),
-                current_version: "5.38.2-3".to_string(),
-                new_version: "5.38.2-4".to_string(),
-            },
-            Package {
-                name: "sqlite3".to_string(),
-                current_version: "3.45.1-1".to_string(),
-                new_version: "3.45.2-1".to_string(),
-            },
-            Package {
-                name: "nodejs".to_string(),
-                current_version: "20.11.0".to_string(),
-                new_version: "20.12.0".to_string(),
-            },
-            Package {
-                name: "nginx".to_string(),
-                current_version: "1.24.0-2".to_string(),
-                new_version: "1.25.0-1".to_string(),
-            },
-            Package {
-                name: "postgresql-client".to_string(),
-                current_version: "16.1-1".to_string(),
-                new_version: "16.2-1".to_string(),
-            },
-            Package {
-                name: "docker-ce".to_string(),
-                current_version: "25.0.3".to_string(),
-                new_version: "25.0.4".to_string(),
-            },
-            Package {
-                name: "tmux".to_string(),
-                current_version: "3.3a-6".to_string(),
-                new_version: "3.4-1".to_string(),
-            },
-            Package {
-                name: "htop".to_string(),
-                current_version: "3.3.0-1".to_string(),
-                new_version: "3.3.0-2".to_string(),
-            },
-            Package {
-                name: "neofetch".to_string(),
-                current_version: "7.1.0-4".to_string(),
-                new_version: "7.1.0-5".to_string(),
-            },
-            Package {
-                name: "zsh".to_string(),
-                current_version: "5.9-5".to_string(),
-                new_version: "5.9-6".to_string(),
-            },
-            Package {
-                name: "rsync".to_string(),
-                current_version: "3.2.7-1".to_string(),
-                new_version: "3.3.0-1".to_string(),
-            },
-            Package {
-                name: "grep".to_string(),
-                current_version: "3.11-4".to_string(),
-                new_version: "3.11-5".to_string(),
-            },
-            Package {
-                name: "sed".to_string(),
-                current_version: "4.9-2".to_string(),
-                new_version: "4.9-3".to_string(),
-            },
-        ]);
-    }
-
-    // Run apt list --upgradable to get available updates
-    let output = StdCommand::new("apt")
-        .args(["list", "--upgradable"])
-        .output()
-        .map_err(|e| format!("Failed to run apt: {}", e))?;
-
-    if !output.status.success() {
-        return Err("apt command failed".to_string());
-    }
-
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    let packages = parse_apt_output(&stdout);
-
-    Ok(packages)
-}
-
-/// Parse the output of `apt list --upgradable`
-///
-/// Expected format per line:
-/// `package/suite version arch [upgradable from: old_version]`
-///
-/// # Arguments
-/// * `output` - Raw stdout from apt command
-///
-/// # Returns
-/// Vector of Package structs with parsed information
-fn parse_apt_output(output: &str) -> Vec<Package> {
-    output
-        .lines()
-        .skip(1) // Skip "Listing..." header line
-        .filter_map(|line| {
-            // Split line into parts by whitespace
-            let parts: Vec<&str> = line.split_whitespace().collect();
-
-            // Verify we have enough parts and the upgrade marker
-            if parts.len() >= 6 && line.contains("[upgradable from:") {
-                let name = parts[0].split('/').next()?.to_string();
-                let new_version = parts[1].to_string();
-                let current_version = parts[5].trim_end_matches(']').to_string();
-
-                Some(Package {
-                    name,
-                    current_version,
-                    new_version,
-                })
-            } else {
-                None
-            }
-        })
-        .collect()
-}
-
-/// Run APT upgrade in a terminal window
-///
-/// Launches cosmic-term with pkexec to elevate privileges and run apt upgrade.
-/// The user can see the upgrade progress in the terminal window.
-///
-/// # Returns
-/// * `Ok(())` - Terminal launched successfully
-/// * `Err(String)` - Failed to launch terminal
-async fn run_apt_upgrade() -> Result<(), String> {
-    // Launch upgrade in terminal window so user can see progress
-    StdCommand::new("cosmic-term")
-        .args([
-            "-e",
-            "pkexec",
-            "apt",
-            "upgrade",
-            "-y"
-        ])
-        .spawn()
-        .map_err(|e| format!("Failed to launch terminal: {}", e))?;
-
-    Ok(())
-}
-
-/// Check if APT is currently running by looking for lock files
-///
-/// APT creates lock files while running to prevent concurrent operations.
-/// We check for the existence of these files to determine if an upgrade is in progress.
-///
-/// # Returns
-/// `true` if any APT lock files exist (upgrade in progress), `false` otherwise
-async fn check_apt_running() -> bool {
-    std::path::Path::new("/var/lib/dpkg/lock-frontend").exists() ||
-        std::path::Path::new("/var/lib/apt/lists/lock").exists() ||
-        std::path::Path::new("/var/cache/apt/archives/lock").exists()
 }
 
 /// Refresh the APT package cache
