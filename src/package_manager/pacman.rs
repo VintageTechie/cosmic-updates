@@ -36,6 +36,12 @@ impl PacmanPackageManager {
     pub fn name(&self) -> &'static str {
         "Pacman"
     }
+
+    pub async fn refresh_cache(&self) -> Result<(), String> {
+    // Pacman's database is automatically updated by checkupdates
+    // and pacman -Syu, so we don't need a separate refresh
+    Ok(())
+}
 }
 
 fn parse_pacman_output(output: &str) -> Vec<Package> {

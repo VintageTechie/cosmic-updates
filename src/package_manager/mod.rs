@@ -42,6 +42,13 @@ impl PackageManager {
             PackageManager::Pacman(pm) => pm.name(),
         }
     }
+
+    pub async fn refresh_cache(&self) -> Result<(), String> {
+    match self {
+        PackageManager::Apt(pm) => pm.refresh_cache().await,
+        PackageManager::Pacman(pm) => pm.refresh_cache().await,
+    }
+}
 }
 
 pub fn detect_package_manager() -> Option<PackageManager> {

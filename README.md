@@ -1,43 +1,73 @@
-# COSMIC APT Update Checker
+# COSMIC Updates
 
-A COSMIC desktop applet for Pop!_OS that monitors APT package updates with a custom penguin mascot.
+A universal package update checker applet for COSMIC Desktop that supports multiple package managers with a custom penguin mascot.
 
 ## Features
 
 - 🐧 Custom penguin icons that change when updates are available
+- 📦 **Multi-distro support**: Works with APT (Debian/Ubuntu/Pop!_OS) and Pacman (Arch/Manjaro/CachyOS)
 - 🎨 Color-coded version numbers (red for old, green for new)
 - 📜 Scrollable package list for large updates
-- 📦 Shows detailed list of available updates
 - ⚡ One-click upgrade with terminal progress
 - 🔄 Auto-checks every 30 minutes
 - 🔒 Secure privilege escalation with pkexec
 - 🏷️ Version display in header
+- 🔍 Auto-detects your package manager at runtime
 
-## Installation (Pop!_OS)
+## Supported Distributions
 
-### Option 1: APT Repository (Recommended)
+### APT-based:
+- Pop!_OS ✅
+- Ubuntu ✅
+- Debian ✅
+- Linux Mint ✅
+
+### Pacman-based:
+- CachyOS ✅
+- Arch Linux ✅
+- Manjaro ✅
+- EndeavourOS ✅
+
+## Installation
+
+### Pop!_OS / Ubuntu / Debian
+
+#### Option 1: APT Repository (Recommended)
 
 Add the repository for automatic updates:
 ```bash
-echo "deb [arch=amd64 trusted=yes] https://vintagetechie.codeberg.page/cosmic-apt-checker stable main" | sudo tee /etc/apt/sources.list.d/cosmic-apt-checker.list
+echo "deb [arch=amd64 trusted=yes] https://vintagetechie.codeberg.page/cosmic-updates stable main" | sudo tee /etc/apt/sources.list.d/cosmic-updates.list
 sudo apt update
-sudo apt install cosmic-apt-checker
+sudo apt install cosmic-updates
 ```
 
-### Option 2: Direct .deb Download
+#### Option 2: Direct .deb Download
 
-**[📥 Download cosmic-apt-checker_0.2.0_amd64.deb](https://vintagetechie.codeberg.page/cosmic-apt-checker/pool/main/cosmic-apt-checker_0.2.0_amd64.deb)**
+**[📥 Download cosmic-updates_0.3.0_amd64.deb](https://vintagetechie.codeberg.page/cosmic-updates/pool/main/cosmic-updates_0.3.0_amd64.deb)**
 ```bash
-wget https://vintagetechie.codeberg.page/cosmic-apt-checker/pool/main/cosmic-apt-checker_0.2.0_amd64.deb
-sudo apt install ./cosmic-apt-checker_0.2.0_amd64.deb
+wget https://vintagetechie.codeberg.page/cosmic-updates/pool/main/cosmic-updates_0.3.0_amd64.deb
+sudo apt install ./cosmic-updates_0.3.0_amd64.deb
 ```
+
+### Arch Linux / CachyOS / Manjaro
+
+#### Build from Source
+```bash
+git clone https://codeberg.org/VintageTechie/cosmic-updates.git
+cd cosmic-updates
+cargo install just
+just install
+just restart-panel
+```
+
+*AUR package coming soon!*
 
 ### Add to Panel
 
 After installation:
 - Right-click your COSMIC panel
 - Select **Panel Configuration**
-- Find **"APT Update Checker"** in the applets list
+- Find **"Updates"** in the applets list
 - Click to add it to your panel
 
 That's it! 🎉
@@ -53,86 +83,146 @@ That's it! 🎉
 - Click "Upgrade" to install (opens terminal)
 - Click "Check Now" for manual check
 
+### Package Manager Detection
+
+The applet automatically detects your system's package manager:
+- **APT systems**: Uses `apt list --upgradable` and `apt upgrade`
+- **Pacman systems**: Uses `checkupdates` and `pacman -Syu`
+
+No configuration needed! 🎯
+
 ## Uninstalling
+
+### APT-based systems:
 ```bash
-sudo apt remove cosmic-apt-checker
+sudo apt remove cosmic-updates
 ```
 
-## Building from Source (Optional)
+### Pacman-based systems:
 ```bash
-# Clone the repository
-git clone https://codeberg.org/VintageTechie/cosmic-apt-checker.git
-cd cosmic-apt-checker
+just uninstall
+```
 
-# Install just if you don't have it
-cargo install just
+## Building from Source
 
-# Build and install
+### Prerequisites
+- Rust toolchain (latest stable)
+- libcosmic development libraries
+- COSMIC Desktop Environment
+
+### Build Instructions
+```bash
+git clone https://codeberg.org/VintageTechie/cosmic-updates.git
+cd cosmic-updates
 cargo build --release
-sudo just install
+just install
 ```
 
-## Development
-
-Built with Rust and [libcosmic](https://github.com/pop-os/libcosmic) specifically for Pop!_OS and COSMIC desktop.
-
-**Debug mode:**
+### Development Commands (using just)
 ```bash
-DEBUG_APT_CHECKER=1 cosmic-panel  # Shows 30 fake updates for testing scrollbar
+just build          # Build release binary
+just install        # Install to system
+just restart-panel  # Restart COSMIC panel
+just debug          # Run with debug mode (fake packages)
+just check          # Run cargo check
+just lint           # Run cargo clippy
+just fmt            # Format code
+just clean          # Clean build artifacts
 ```
+
+### Debug Mode
+Test with fake packages:
+```bash
+DEBUG_APT_CHECKER=1 cosmic-panel
+```
+
+## Architecture
+
+### Module Structure
+```
+src/
+├── main.rs                    # Main applet code
+└── package_manager/
+    ├── mod.rs                 # Package manager trait & enum
+    ├── apt.rs                 # APT implementation
+    └── pacman.rs              # Pacman implementation
+```
+
+### Adding New Package Managers
+
+To add support for a new package manager:
+
+1. Create a new file in `src/package_manager/` (e.g., `dnf.rs`)
+2. Implement these methods:
+   - `check_updates()` - List available updates
+   - `run_upgrade()` - Launch upgrade in terminal
+   - `is_running()` - Check if package manager is running
+   - `name()` - Return package manager name
+3. Add detection in `mod.rs::detect_package_manager()`
+4. Add variant to `PackageManager` enum
+
+See `apt.rs` or `pacman.rs` for examples.
 
 ## Changelog
 
+### Version 0.3.0 (2025-11-07)
+- 🎉 **Multi-package manager support** - APT and Pacman!
+- 🔄 **Renamed to cosmic-updates** - Universal support
+- 🏗️ **Refactored architecture** - Modular design
+- 🔍 **Auto-detection** - Detects package manager
+- 🆔 **Updated APP_ID** - `com.vintagetechie.CosmicUpdates`
+- 📦 **Arch/CachyOS support** - Full Pacman integration
+
 ### Version 0.2.0 (2025-11-06)
-- 🎨 **Color-coded version numbers** - Old versions in red, new versions in green
-- 📜 **Scrollable package list** - Handles 20+ updates gracefully with scrollbar
-- 🏷️ **Version display** - Shows applet version in popup header
-- 🎯 **Fixed icon alignment** - Icon now properly centered in panel
-- 🧪 **Enhanced debug mode** - Now shows 30 test packages for thorough testing
-- ✨ **Rich text support** - Using proper text spans for colored text
+- 🎨 Color-coded version numbers
+- 📜 Scrollable package list
+- 🏷️ Version display in header
+- 🎯 Fixed icon alignment
 
-### Version 0.1.4 (2025-11-06)
-- ✨ Enhanced popup UI with penguin icon in header
-- 🎨 Added status indicator emojis (✓, ⚠, 🔄, ⚙, ❌)
-- 📦 Package list now shows emoji indicators
-- 🎯 Improved spacing and layout for compact, dynamic sizing
-- 🛠 Fixed popup click handler for consistent behavior
-
-### Version 0.1.3 (2025-11-05)
-- 🎨 Improved icon coloring and design
-- 🐧 Colored penguin mascot with alert badge
-- 🔧 Bug fixes and performance improvements
-
-### Version 0.1.2 (2025-11-05)
-- 🔄 Enhanced update checking reliability
-- 🛠 Various bug fixes
-
-### Version 0.1.1 (2025-11-05)
-- 🎉 Initial release
-- 🐧 Custom penguin icon design
-- ⚡ Basic update checking functionality
+### Version 0.1.x (2025-11-05)
+- Initial releases as cosmic-apt-checker
+- Basic APT functionality
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+Contributions welcome! 
+
+- **Bug reports**: Open an issue on [Codeberg](https://codeberg.org/VintageTechie/cosmic-updates/issues)
+- **Code contributions**: Fork, create feature branch, test, submit PR
+- **New package managers**: See "Adding New Package Managers" above
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file
+MIT License - see [LICENSE](LICENSE)
 
 ## Credits
 
-Developed by VintageTechie for the Pop!_OS / COSMIC community 🚀
+Developed by [VintageTechie](https://vintagetechie.com) for the COSMIC community 🚀
 
-Custom penguin artwork - original design, no copyright issues!
+Built with [Rust](https://www.rust-lang.org/) 🦀 and [libcosmic](https://github.com/pop-os/libcosmic)
 
 ### Support Development
 
-If you find this applet useful, consider supporting development:
-
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vintagetechie)
 
-## Repository
+## Links
 
-- **Source Code:** https://codeberg.org/VintageTechie/cosmic-apt-checker
-- **APT Repository:** https://vintagetechie.codeberg.page/cosmic-apt-checker
+- **Website:** https://vintagetechie.com
+- **Source:** https://codeberg.org/VintageTechie/cosmic-updates
+- **APT Repo:** https://vintagetechie.codeberg.page/cosmic-updates
+- **Issues:** https://codeberg.org/VintageTechie/cosmic-updates/issues
+
+## Roadmap
+
+- [ ] AUR package
+- [ ] DNF support (Fedora)
+- [ ] Zypper support (openSUSE)
+- [ ] Flatpak support
+- [ ] System restart notifications
+- [ ] Update history viewer
+- [ ] Configurable check interval
+- [ ] Desktop notifications
+
+---
+
+Made with ❤️ for the COSMIC Desktop community

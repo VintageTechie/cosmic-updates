@@ -3,13 +3,13 @@
 //! This applet monitors APT package updates and displays them in the COSMIC panel.
 //! It provides a visual indicator when updates are available and allows one-click upgrades.
 mod package_manager;
-use package_manager::{Package, PackageManager};
 use cosmic::app::{Core, Task};
 use cosmic::iced::platform_specific::shell::commands::popup::{destroy_popup, get_popup};
 use cosmic::iced::{Alignment, Length, Limits, Subscription};
 use cosmic::iced_core::window;
 use cosmic::iced_runtime::core::window::Id as WindowId;
 use cosmic::{widget, Application, Element};
+use package_manager::{Package, PackageManager};
 use std::process::Command as StdCommand;
 use std::time::Duration;
 
@@ -36,14 +36,14 @@ struct UpdateChecker {
     checking: bool,
     upgrading: bool,
     error: Option<String>,
-    package_manager:PackageManager,
+    package_manager: PackageManager,
 }
 
 impl Default for UpdateChecker {
     fn default() -> Self {
-        let package_manager = package_manager::detect_package_manager()
-            .expect("No supported package manager found");
-        
+        let package_manager =
+            package_manager::detect_package_manager().expect("No supported package manager found");
+
         Self {
             core: Core::default(),
             popup: None,
@@ -105,7 +105,10 @@ impl Application for UpdateChecker {
             ..Default::default()
         };
         // Check for updates immediately on startup
-        (app, Task::done(cosmic::Action::App(Message::CheckForUpdates)))
+        (
+            app,
+            Task::done(cosmic::Action::App(Message::CheckForUpdates)),
+        )
     }
 
     /// Handle incoming messages and update application state
@@ -150,10 +153,9 @@ impl Application for UpdateChecker {
                 self.checking = true;
                 self.error = None;
                 let pm = self.package_manager.clone();
-                Task::perform(
-                    async move { pm.check_updates().await },
-                    |result| cosmic::Action::App(Message::UpdatesFound(result))
-                )
+                Task::perform(async move { pm.check_updates().await }, |result| {
+                    cosmic::Action::App(Message::UpdatesFound(result))
+                })
             }
             Message::UpdatesFound(result) => {
                 // Process the result of checking for updates
@@ -173,10 +175,9 @@ impl Application for UpdateChecker {
                 // Start the upgrade process
                 self.error = None;
                 let pm = self.package_manager.clone();
-                Task::perform(
-                    async move { pm.run_upgrade().await },
-                    |result| cosmic::Action::App(Message::UpgradeStarted(result))
-                )
+                Task::perform(async move { pm.run_upgrade().await }, |result| {
+                    cosmic::Action::App(Message::UpgradeStarted(result))
+                })
             }
             Message::UpgradeStarted(result) => {
                 // Process the result of starting the upgrade
@@ -194,10 +195,9 @@ impl Application for UpdateChecker {
             Message::CheckUpgradeStatus => {
                 // Poll to see if upgrade is still running
                 let pm = self.package_manager.clone();
-                Task::perform(
-                    async move { pm.is_running().await },
-                    |is_running| cosmic::Action::App(Message::UpgradeStatusChecked(is_running))
-                )
+                Task::perform(async move { pm.is_running().await }, |is_running| {
+                    cosmic::Action::App(Message::UpgradeStatusChecked(is_running))
+                })
             }
             Message::UpgradeStatusChecked(is_running) => {
                 if !is_running && self.upgrading {
@@ -208,12 +208,13 @@ impl Application for UpdateChecker {
                     Task::none()
                 }
             }
+
             Message::RefreshCache => {
-                // Refresh the APT package cache
-                Task::perform(
-                    refresh_apt_cache(),
-                    |result| cosmic::Action::App(Message::CacheRefreshed(result))
-                )
+                // Refresh the package cache
+                let pm = self.package_manager.clone();
+                Task::perform(async move { pm.refresh_cache().await }, |result| {
+                    cosmic::Action::App(Message::CacheRefreshed(result))
+                })
             }
             Message::CacheRefreshed(result) => {
                 match result {
@@ -247,15 +248,14 @@ impl Application for UpdateChecker {
     fn subscription(&self) -> Subscription<Self::Message> {
         let mut subscriptions = vec![
             // Check for updates every 30 minutes
-            cosmic::iced::time::every(Duration::from_secs(30 * 60))
-                .map(|_| Message::Tick)
+            cosmic::iced::time::every(Duration::from_secs(30 * 60)).map(|_| Message::Tick),
         ];
 
         // If upgrading, poll every 2 seconds to check if apt is still running
         if self.upgrading {
             subscriptions.push(
                 cosmic::iced::time::every(Duration::from_secs(2))
-                    .map(|_| Message::CheckUpgradeStatus)
+                    .map(|_| Message::CheckUpgradeStatus),
             );
         }
 
@@ -265,24 +265,20 @@ impl Application for UpdateChecker {
     /// Render the panel icon view
     fn view(&self) -> Element<Self::Message> {
         let count = self.packages.len();
-        let icon_data = if count > 0 {
-            ICON_ALERT
-        } else {
-            ICON_NORMAL
-        };
+        let icon_data = if count > 0 { ICON_ALERT } else { ICON_NORMAL };
         let svg_handle = widget::svg::Handle::from_memory(icon_data);
 
         widget::container(
             widget::mouse_area(
                 widget::svg(svg_handle)
                     .width(Length::Fixed(24.0))
-                    .height(Length::Fixed(24.0))
+                    .height(Length::Fixed(24.0)),
             )
-            .on_press(Message::TogglePopup)
+            .on_press(Message::TogglePopup),
         )
-            .height(Length::Fill)
-            .align_y(Alignment::Center)
-            .into()
+        .height(Length::Fill)
+        .align_y(Alignment::Center)
+        .into()
     }
     /// Render the popup window view
     fn view_window(&self, id: window::Id) -> Element<Self::Message> {
@@ -292,7 +288,7 @@ impl Application for UpdateChecker {
         }
 
         let count = self.packages.len();
-        
+
         // Choose icon for header
         let header_icon_data = if count > 0 { ICON_ALERT } else { ICON_NORMAL };
         let header_icon = widget::svg(widget::svg::Handle::from_memory(header_icon_data))
@@ -303,59 +299,41 @@ impl Application for UpdateChecker {
         let header = widget::row()
             .push(header_icon)
             .push(widget::horizontal_space())
-            .push(
-                widget::text("COSMIC Updates")
-                    .size(18)
-                    .width(Length::Fill)
-            )
-            .push(
-                widget::text(format!("v{}", VERSION))
-                    .size(12)
-            )
+            .push(widget::text("COSMIC Updates").size(18).width(Length::Fill))
+            .push(widget::text(format!("v{}", VERSION)).size(12))
             .spacing(12)
             .align_y(Alignment::Center);
 
         // Status section with colored indicators
         let status_content = if self.upgrading {
             widget::column()
-                .push(
-                    widget::text("⚙ Upgrading packages...")
-                        .size(15)
-                )
-                .push(
-                    widget::text("Check terminal for progress")
-                        .size(12)
-                )
+                .push(widget::text("⚙ Upgrading packages...").size(15))
+                .push(widget::text("Check terminal for progress").size(12))
                 .spacing(4)
         } else if self.checking {
             widget::column()
-                .push(
-                    widget::text("🔄 Checking for updates...")
-                        .size(15)
-                )
+                .push(widget::text("🔄 Checking for updates...").size(15))
                 .spacing(4)
         } else if let Some(error) = &self.error {
             widget::column()
-                .push(
-                    widget::text(format!("❌ Error: {}", error))
-                        .size(13)
-                )
+                .push(widget::text(format!("❌ Error: {}", error)).size(13))
                 .spacing(4)
         } else if count > 0 {
             let mut col = widget::column()
                 .push(
-                    widget::text(format!("⚠ {} update{} available", 
-                        count, 
+                    widget::text(format!(
+                        "⚠ {} update{} available",
+                        count,
                         if count == 1 { "" } else { "s" }
                     ))
-                    .size(15)
+                    .size(15),
                 )
                 .spacing(6);
 
             // Add package cards with colored text using rich_text and Spans
             for package in &self.packages {
                 use cosmic::iced::widget::text::Span;
-                
+
                 let package_text = cosmic::iced::widget::rich_text(vec![
                     Span::new(format!("📦 {}: ", package.name)),
                     Span::new(&package.current_version)
@@ -365,40 +343,31 @@ impl Application for UpdateChecker {
                         .color(cosmic::iced::Color::from_rgb(0.3, 0.8, 0.3)),
                 ])
                 .size(12);
-                
-                let package_card = widget::container(package_text)
-                    .padding(6);
-                
+
+                let package_card = widget::container(package_text).padding(6);
+
                 col = col.push(package_card);
             }
             col
         } else {
             widget::column()
-                .push(
-                    widget::text("✓ System is up to date")
-                        .size(15)
-                )
+                .push(widget::text("✓ System is up to date").size(15))
                 .spacing(4)
         };
 
         // Buttons row
         let buttons = widget::row()
-            .push(
-                widget::button::standard("Check Now")
-                    .on_press(Message::CheckForUpdates)
-            )
+            .push(widget::button::standard("Check Now").on_press(Message::CheckForUpdates))
             .push(widget::horizontal_space())
             .push(if count > 0 && !self.upgrading {
-                widget::button::suggested("Upgrade")
-                    .on_press(Message::Upgrade)
+                widget::button::suggested("Upgrade").on_press(Message::Upgrade)
             } else {
                 widget::button::suggested("Upgrade")
             })
             .spacing(12);
 
         // Wrap status content in scrollable with max height
-        let scrollable_status = widget::scrollable(status_content)
-            .height(Length::Fixed(400.0));
+        let scrollable_status = widget::scrollable(status_content).height(Length::Fixed(400.0));
 
         let content = self.core.applet.popup_container(
             widget::column()
@@ -407,31 +376,9 @@ impl Application for UpdateChecker {
                 .push(buttons)
                 .spacing(12)
                 .padding(16)
-                .align_x(Alignment::Start)
+                .align_x(Alignment::Start),
         );
 
         content.into()
     }
-}
-
-/// Refresh the APT package cache
-///
-/// Runs `apt update` with elevated privileges to fetch the latest package information
-/// from repositories. This ensures we have the most current data about available updates.
-///
-/// # Returns
-/// * `Ok(())` - Cache refreshed successfully
-/// * `Err(String)` - Error message if refresh failed
-async fn refresh_apt_cache() -> Result<(), String> {
-    let output = StdCommand::new("pkexec")
-        .args(["apt", "update"])
-        .output()
-        .map_err(|e| format!("Failed to refresh cache: {}", e))?;
-
-    if !output.status.success() {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        return Err(format!("Cache refresh failed: {}", stderr));
-    }
-
-    Ok(())
 }
