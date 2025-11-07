@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=APT Update Checker
+Type=Application
+Exec=cosmic-apt-checker
+Terminal=false
+Categories=COSMIC;
+Keywords=COSMIC;Iced;
+Icon=system-software-update
+StartupNotify=true
+NoDisplay=true
+X-CosmicApplet=true
+X-CosmicHoverPopup=Auto
+X-OverflowPriority=10

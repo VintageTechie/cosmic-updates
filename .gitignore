@@ -1,0 +1,37 @@
+/target
+
+# Release artifacts
+*.tar.gz
+release/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.deb
+*.rpm
+*.deb
+debian/usr/
+debian/DEBIAN/
+debian/
+
+# Test icon variants
+icons/**/*-symbolic.svg
+icons/**/*-v2.svg
+icons/**/*-final.svg
+
+# Extracted test files
+option2-colored-icons/
+
+# Build artifacts
+*.deb
+debian/usr/
+debian/DEBIAN/postinst
+debian/DEBIAN/postrm
