@@ -43,20 +43,20 @@ impl AptPackageManager {
     pub fn name(&self) -> &'static str {
         "APT"
     }
- 
+
     pub async fn refresh_cache(&self) -> Result<(), String> {
-    let output = StdCommand::new("pkexec")
-        .args(["apt", "update"])
-        .output()
-        .map_err(|e| format!("Failed to refresh cache: {}", e))?;
+        let output = StdCommand::new("pkexec")
+            .args(["apt", "update"])
+            .output()
+            .map_err(|e| format!("Failed to refresh cache: {}", e))?;
 
-    if !output.status.success() {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        return Err(format!("Cache refresh failed: {}", stderr));
+        if !output.status.success() {
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            return Err(format!("Cache refresh failed: {}", stderr));
+        }
+
+        Ok(())
     }
-
-    Ok(())
-}
 }
 
 fn parse_apt_output(output: &str) -> Vec<Package> {

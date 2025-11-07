@@ -44,21 +44,29 @@ impl PackageManager {
     }
 
     pub async fn refresh_cache(&self) -> Result<(), String> {
-    match self {
-        PackageManager::Apt(pm) => pm.refresh_cache().await,
-        PackageManager::Pacman(pm) => pm.refresh_cache().await,
+        match self {
+            PackageManager::Apt(pm) => pm.refresh_cache().await,
+            PackageManager::Pacman(pm) => pm.refresh_cache().await,
+        }
     }
-}
 }
 
 pub fn detect_package_manager() -> Option<PackageManager> {
-    if std::process::Command::new("apt").arg("--version").output().is_ok() {
+    if std::process::Command::new("apt")
+        .arg("--version")
+        .output()
+        .is_ok()
+    {
         return Some(PackageManager::Apt(apt::AptPackageManager));
     }
-    
-    if std::process::Command::new("pacman").arg("--version").output().is_ok() {
+
+    if std::process::Command::new("pacman")
+        .arg("--version")
+        .output()
+        .is_ok()
+    {
         return Some(PackageManager::Pacman(pacman::PacmanPackageManager));
     }
-    
+
     None
 }
