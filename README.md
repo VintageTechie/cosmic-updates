@@ -214,14 +214,75 @@ Built with [Rust](https://www.rust-lang.org/) 🦀 and [libcosmic](https://githu
 
 ## Roadmap
 
-- [ ] AUR package
-- [ ] DNF support (Fedora)
-- [ ] Zypper support (openSUSE)
-- [ ] Flatpak support
-- [ ] System restart notifications
-- [ ] Update history viewer
-- [ ] Configurable check interval
-- [ ] Desktop notifications
+### 🎯 Near-Term (v0.4.x)
+
+#### AUR Support
+- [ ] Detect AUR helpers (`yay`, `paru`, `pikaur`)
+- [ ] Check AUR package updates separately
+- [ ] Combine official repo + AUR updates in one view
+- [ ] Show AUR packages with special indicator
+- [ ] Handle AUR helper configuration
+
+#### Package Distribution
+- [ ] Publish AUR package (`cosmic-updates`)
+- [ ] Publish AUR git package (`cosmic-updates-git`)
+- [ ] RPM packages for Fedora
+- [ ] openSUSE packages
+
+### 🚀 Mid-Term (v0.5.x)
+
+#### Additional Package Managers
+- [ ] DNF support (Fedora, RHEL, CentOS)
+- [ ] Zypper support (openSUSE, SUSE)
+- [ ] Nix package manager support
+- [ ] Snap support
+- [ ] AppImage update checking
+
+#### Flatpak Distribution
+- [ ] Create Flatpak manifest
+- [ ] Test with COSMIC Flatpak environment
+- [ ] Submit to System76's COSMIC Flatpak repository
+- [ ] Eventually submit to Flathub
+
+### ✨ Long-Term Features
+
+#### Smart Notifications
+- [ ] Desktop notifications when updates available
+- [ ] Configurable notification frequency
+- [ ] System restart alerts (kernel/critical updates)
+- [ ] Update categories (security vs regular)
+- [ ] Silent mode option
+
+#### Enhanced Update Management
+- [ ] One-click upgrade (no terminal needed)
+- [ ] Progress indicators during updates
+- [ ] Update history/changelog viewer
+- [ ] Failed update recovery
+- [ ] Rollback capability
+- [ ] Selective package updates (pick which to install)
+
+#### Scheduling & Automation
+- [ ] Configurable auto-check interval
+- [ ] Schedule updates for specific times
+- [ ] Auto-update option for security patches
+- [ ] Update reminders
+
+#### UI/UX Improvements
+- [ ] Settings panel for configuration
+- [ ] Multiple icon themes
+- [ ] Package details popup (size, dependencies, changelog)
+- [ ] Search/filter in update list
+- [ ] Tooltips with package descriptions
+- [ ] Keyboard shortcuts
+- [ ] Different view modes (compact/detailed)
+
+#### Advanced Features
+- [ ] Update statistics and analytics
+- [ ] Bandwidth usage monitoring
+- [ ] Mirror selection/optimization
+- [ ] Multiple language support (i18n)
+- [ ] Integration with system logs
+- [ ] Export update reports
 
 ---
 
