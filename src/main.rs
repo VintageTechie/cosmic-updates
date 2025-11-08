@@ -21,7 +21,7 @@ const ICON_ALERT: &[u8] = include_bytes!("../icons/hicolor/scalable/apps/tux-ale
 const APP_ID: &str = "com.vintagetechie.CosmicUpdates";
 
 /// Application version
-const VERSION: &str = "0.2.0";
+const VERSION: &str = "0.3.1";
 
 /// Entry point for the applet
 fn main() -> cosmic::iced::Result {
