@@ -1,0 +1,13 @@
+Origin: VintageTechie
+Label: cosmic-updates
+Suite: stable
+Codename: stable
+Architectures: amd64
+Components: main
+Description: COSMIC Updates APT Repository
+MD5Sum:
+ 4ea1cc99b17f8ca2791fa9174e25567b main/binary-amd64/Packages
+ ce9a4ff3475ea0ff5934594431954c04 main/binary-amd64/Packages.gz
+SHA256:
+ 3274dd15777bba504ef3746b02467ee849aed3a41d7517769f4d609f1425c484 main/binary-amd64/Packages
+ da152a046f51cdfd6895308b6a360b2d7bd01d4aea2af35978358835fadba6da main/binary-amd64/Packages.gz
