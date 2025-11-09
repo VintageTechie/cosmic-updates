@@ -1,112 +1,75 @@
 #!/bin/bash
 # Build .deb package for cosmic-updates
 
-set -e  # Exit on error
+VERSION=$1
+if [ -z "$VERSION" ]; then
+    echo "Usage: ./build-deb.sh VERSION"
+    echo "Example: ./build-deb.sh 0.4.0"
+    exit 1
+fi
 
-VERSION=${1:-"0.3.0"}
-PACKAGE_NAME="cosmic-updates"
+PKGNAME="cosmic-updates"
 ARCH="amd64"
-DEB_NAME="${PACKAGE_NAME}_${VERSION}_${ARCH}.deb"
+PKGDIR="${PKGNAME}_${VERSION}_${ARCH}"
 
-echo "🔨 Building ${DEB_NAME}..."
-echo ""
+echo "Building ${PKGNAME} version ${VERSION}..."
 
-# Step 1: Build the release binary
-echo "📦 Building release binary..."
+# Build release binary
 cargo build --release
-echo "✅ Binary built"
-echo ""
 
-# Step 2: Clean and prepare debian directory
-echo "🗂️  Preparing package structure..."
-rm -rf debian/usr debian/DEBIAN/postinst debian/DEBIAN/postrm
-mkdir -p debian/usr/bin
-mkdir -p debian/usr/share/applications
-mkdir -p debian/usr/share/icons/hicolor/scalable/apps
-mkdir -p debian/DEBIAN
+# Create package structure
+rm -rf "$PKGDIR"
+mkdir -p "$PKGDIR/DEBIAN"
+mkdir -p "$PKGDIR/usr/bin"
+mkdir -p "$PKGDIR/usr/share/applications"
+mkdir -p "$PKGDIR/usr/share/icons/hicolor/scalable/apps"
 
-# Step 3: Copy files to debian structure
-echo "📋 Copying files..."
-cp target/release/cosmic-updates debian/usr/bin/
-chmod 0755 debian/usr/bin/cosmic-updates
+# Copy files
+cp target/release/cosmic-updates "$PKGDIR/usr/bin/"
+chmod +x "$PKGDIR/usr/bin/cosmic-updates"
 
-cp com.vintagetechie.CosmicUpdates.desktop debian/usr/share/applications/
-chmod 0644 debian/usr/share/applications/com.vintagetechie.CosmicUpdates.desktop
+cp com.vintagetechie.CosmicUpdates.desktop "$PKGDIR/usr/share/applications/"
+cp icons/hicolor/scalable/apps/tux-normal.svg "$PKGDIR/usr/share/icons/hicolor/scalable/apps/"
+cp icons/hicolor/scalable/apps/tux-alert.svg "$PKGDIR/usr/share/icons/hicolor/scalable/apps/"
 
-cp icons/hicolor/scalable/apps/tux-normal.svg debian/usr/share/icons/hicolor/scalable/apps/
-cp icons/hicolor/scalable/apps/tux-alert.svg debian/usr/share/icons/hicolor/scalable/apps/
-chmod 0644 debian/usr/share/icons/hicolor/scalable/apps/*.svg
-
-echo "✅ Files copied"
-echo ""
-
-# Step 4: Update control file version
-echo "📝 Updating control file..."
-cat > debian/DEBIAN/control << EOF
-Package: ${PACKAGE_NAME}
-Version: ${VERSION}
+# Create control file
+cat > "$PKGDIR/DEBIAN/control" << CONTROL
+Package: cosmic-updates
+Version: $VERSION
 Section: utils
 Priority: optional
-Architecture: ${ARCH}
-Maintainer: VintageTechie <https://vintagetechie.com>
-Description: Universal package update checker applet for COSMIC desktop
- A COSMIC desktop applet that monitors package updates from multiple
- package managers (APT, Pacman) with a custom penguin mascot.
- Shows updates in panel, allows one-click upgrades, and auto-checks
- every 30 minutes.
-Depends: cosmic-panel
-EOF
+Architecture: amd64
+Depends: cosmic-session
+Maintainer: VintageTechie <https://vintagetechie.com\>
+Description: Universal package update checker applet for COSMIC Desktop
+ A COSMIC Desktop applet that monitors package updates with support for
+ multiple package managers including APT.
+ .
+ Features:
+  - Custom penguin icons that change when updates are available
+  - Color-coded version numbers (red for old, green for new)
+  - Configurable check intervals (5-120 minutes)
+  - Settings UI with persistent configuration
+  - Scrollable package list for large updates
+  - One-click upgrade with terminal progress
+  - Auto-detects your package manager at runtime
+Homepage: https://codeberg.org/VintageTechie/cosmic-updates
+CONTROL
 
-echo "✅ Control file updated"
-echo ""
-
-# Step 5: Create postinst script
-echo "📝 Creating postinst script..."
-cat > debian/DEBIAN/postinst << 'EOF'
+# Create postinst script
+cat > "$PKGDIR/DEBIAN/postinst" << 'POSTINST'
 #!/bin/bash
-# Update icon cache after installation
+set -e
 if [ "$1" = "configure" ]; then
-    gtk-update-icon-cache -f -t /usr/share/icons/hicolor 2>/dev/null || true
+    gtk-update-icon-cache -f /usr/share/icons/hicolor/ 2>/dev/null || true
 fi
 exit 0
-EOF
-chmod 0755 debian/DEBIAN/postinst
+POSTINST
+chmod +x "$PKGDIR/DEBIAN/postinst"
 
-# Step 6: Create postrm script
-echo "📝 Creating postrm script..."
-cat > debian/DEBIAN/postrm << 'EOF'
-#!/bin/bash
-# Update icon cache after removal
-if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
-    gtk-update-icon-cache -f -t /usr/share/icons/hicolor 2>/dev/null || true
-fi
-exit 0
-EOF
-chmod 0755 debian/DEBIAN/postrm
-
-echo "✅ Maintainer scripts created"
-echo ""
-
-# Step 7: Build the .deb package
-echo "🔧 Building .deb package..."
-dpkg-deb --build --root-owner-group debian "${DEB_NAME}"
-
-# Step 8: Move to root directory
-mv "${DEB_NAME}" ./ 2>/dev/null || true
+# Build package
+dpkg-deb --build "$PKGDIR"
 
 echo ""
-echo "✅ Package built successfully: ${DEB_NAME}"
-echo ""
-echo "📊 Package info:"
-dpkg-deb --info "${DEB_NAME}"
-echo ""
-echo "📦 Package contents:"
-dpkg-deb --contents "${DEB_NAME}"
-echo ""
-echo "🎉 Ready to install or deploy!"
-echo ""
-echo "To test locally:"
-echo "  sudo apt install ./${DEB_NAME}"
-echo ""
-echo "To remove package files from debian/ (keep the .deb):"
-echo "  rm -rf debian/usr debian/DEBIAN/postinst debian/DEBIAN/postrm"
+echo "✅ Package created: ${PKGDIR}.deb"
+ls -lh "${PKGDIR}.deb"
