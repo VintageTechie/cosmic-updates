@@ -32,13 +32,12 @@ mkdir -p dists/stable/main/binary-amd64
 # Copy deb to pool
 cp "/tmp/$DEB_FILE" pool/main/
 
-# Generate Packages file
-cd dists/stable/main/binary-amd64
-dpkg-scanpackages -m ../../../../pool/main /dev/null > Packages
-gzip -kf Packages
+# Generate Packages file (run from repo root, not from subdirectory)
+dpkg-scanpackages --arch amd64 pool/ > dists/stable/main/binary-amd64/Packages
+gzip -kf dists/stable/main/binary-amd64/Packages
 
 # Generate Release file
-cd ../..
+cd dists/stable
 cat > Release << RELEASE
 Origin: VintageTechie
 Label: cosmic-updates
@@ -64,7 +63,7 @@ cd ../..
 
 # Commit and push
 git add pool/main/$DEB_FILE dists/stable/Release dists/stable/main/binary-amd64/Packages*
-git commit -m "Publish cosmic-updates ${VERSION}"
+git commit -m "Publish cosmic-updates ${VERSION} (fix paths)"
 git push origin pages
 
 # Switch back to master
