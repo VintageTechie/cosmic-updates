@@ -90,8 +90,9 @@ sudo apt install ./cosmic-updates_0.4.0_amd64.deb
 ### Add to Panel
 
 After installation:
-- Right-click your COSMIC panel
-- Select **Panel Configuration**
+- Open COSMIC Settings
+- Go to Desktop → Panel → Configure panel applets
+- Click **Add applet**
 - Find **"Updates"** in the applets list
 - Click to add it to your panel
 
