@@ -1,17 +1,22 @@
 pub mod apt;
 pub mod pacman;
+pub mod paru;
+pub mod yay;
 
 #[derive(Debug, Clone)]
 pub struct Package {
     pub name: String,
     pub current_version: String,
     pub new_version: String,
+    pub is_aur: bool, // Track if this is from AUR
 }
 
 #[derive(Clone)]
 pub enum PackageManager {
     Apt(apt::AptPackageManager),
     Pacman(pacman::PacmanPackageManager),
+    CombinedParu(pacman::PacmanPackageManager, paru::ParuPackageManager), // Pacman + paru
+    CombinedYay(pacman::PacmanPackageManager, yay::YayPackageManager),    // Pacman + yay
 }
 
 impl PackageManager {
@@ -19,6 +24,40 @@ impl PackageManager {
         match self {
             PackageManager::Apt(pm) => pm.check_updates().await,
             PackageManager::Pacman(pm) => pm.check_updates().await,
+            PackageManager::CombinedParu(pacman, paru) => {
+                // Get both official repo and AUR updates
+                let mut all_packages = Vec::new();
+
+                // Official repos
+                let mut official = pacman.check_updates().await?;
+                for pkg in &mut official {
+                    pkg.is_aur = false;
+                }
+                all_packages.extend(official);
+
+                // AUR packages
+                let aur = paru.check_updates().await?;
+                all_packages.extend(aur);
+
+                Ok(all_packages)
+            }
+            PackageManager::CombinedYay(pacman, yay) => {
+                // Get both official repo and AUR updates
+                let mut all_packages = Vec::new();
+
+                // Official repos
+                let mut official = pacman.check_updates().await?;
+                for pkg in &mut official {
+                    pkg.is_aur = false;
+                }
+                all_packages.extend(official);
+
+                // AUR packages
+                let aur = yay.check_updates().await?;
+                all_packages.extend(aur);
+
+                Ok(all_packages)
+            }
         }
     }
 
@@ -26,6 +65,14 @@ impl PackageManager {
         match self {
             PackageManager::Apt(pm) => pm.run_upgrade().await,
             PackageManager::Pacman(pm) => pm.run_upgrade().await,
+            PackageManager::CombinedParu(_pacman, paru) => {
+                // Use paru for upgrade since it handles both official + AUR
+                paru.run_upgrade().await
+            }
+            PackageManager::CombinedYay(_pacman, yay) => {
+                // Use yay for upgrade since it handles both official + AUR
+                yay.run_upgrade().await
+            }
         }
     }
 
@@ -33,6 +80,8 @@ impl PackageManager {
         match self {
             PackageManager::Apt(pm) => pm.is_running().await,
             PackageManager::Pacman(pm) => pm.is_running().await,
+            PackageManager::CombinedParu(pacman, _paru) => pacman.is_running().await,
+            PackageManager::CombinedYay(pacman, _yay) => pacman.is_running().await,
         }
     }
 
@@ -40,6 +89,8 @@ impl PackageManager {
         match self {
             PackageManager::Apt(pm) => pm.name(),
             PackageManager::Pacman(pm) => pm.name(),
+            PackageManager::CombinedParu(_pacman, paru) => paru.name(),
+            PackageManager::CombinedYay(_pacman, yay) => yay.name(),
         }
     }
 
@@ -47,6 +98,18 @@ impl PackageManager {
         match self {
             PackageManager::Apt(pm) => pm.refresh_cache().await,
             PackageManager::Pacman(pm) => pm.refresh_cache().await,
+            PackageManager::CombinedParu(pacman, paru) => {
+                // Refresh both
+                pacman.refresh_cache().await?;
+                paru.refresh_cache().await?;
+                Ok(())
+            }
+            PackageManager::CombinedYay(pacman, yay) => {
+                // Refresh both
+                pacman.refresh_cache().await?;
+                yay.refresh_cache().await?;
+                Ok(())
+            }
         }
     }
 }
@@ -65,7 +128,28 @@ pub fn detect_package_manager() -> Option<PackageManager> {
         .output()
         .is_ok()
     {
-        return Some(PackageManager::Pacman(pacman::PacmanPackageManager));
+        // Check for AUR helpers in order of preference: paru > yay
+        if std::process::Command::new("paru")
+            .arg("--version")
+            .output()
+            .is_ok()
+        {
+            return Some(PackageManager::CombinedParu(
+                pacman::PacmanPackageManager,
+                paru::ParuPackageManager,
+            ));
+        } else if std::process::Command::new("yay")
+            .arg("--version")
+            .output()
+            .is_ok()
+        {
+            return Some(PackageManager::CombinedYay(
+                pacman::PacmanPackageManager,
+                yay::YayPackageManager,
+            ));
+        } else {
+            return Some(PackageManager::Pacman(pacman::PacmanPackageManager));
+        }
     }
 
     None

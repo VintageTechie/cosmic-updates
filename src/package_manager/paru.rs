@@ -2,27 +2,29 @@ use super::Package;
 use std::process::Command as StdCommand;
 
 #[derive(Clone)]
-pub struct PacmanPackageManager;
+pub struct ParuPackageManager;
 
-impl PacmanPackageManager {
+impl ParuPackageManager {
     pub async fn check_updates(&self) -> Result<Vec<Package>, String> {
-        let output = StdCommand::new("checkupdates")
+        let output = StdCommand::new("paru")
+            .args(["-Qua"])
             .output()
-            .map_err(|e| format!("Failed to run checkupdates: {}", e))?;
+            .map_err(|e| format!("Failed to run paru: {}", e))?;
 
         if !output.status.success() {
             return Ok(Vec::new());
         }
 
         let stdout = String::from_utf8_lossy(&output.stdout);
-        let packages = parse_pacman_output(&stdout);
+        let packages = parse_paru_output(&stdout);
 
         Ok(packages)
     }
 
     pub async fn run_upgrade(&self) -> Result<(), String> {
+        // paru -Syu handles both official repos and AUR
         StdCommand::new("cosmic-term")
-            .args(["-e", "pkexec", "pacman", "-Syu", "--noconfirm"])
+            .args(["-e", "paru", "-Syu"])
             .spawn()
             .map_err(|e| format!("Failed to launch terminal: {}", e))?;
 
@@ -30,31 +32,42 @@ impl PacmanPackageManager {
     }
 
     pub async fn is_running(&self) -> bool {
+        // Check if pacman lock exists (paru uses pacman)
         std::path::Path::new("/var/lib/pacman/db.lck").exists()
     }
 
     pub fn name(&self) -> &'static str {
-        "Pacman"
+        "Pacman + AUR (paru)"
     }
 
     pub async fn refresh_cache(&self) -> Result<(), String> {
-        // Pacman's database is automatically updated by checkupdates
-        // and pacman -Syu, so we don't need a separate refresh
+        // paru -Sy refreshes both official and AUR databases
+        let output = StdCommand::new("paru")
+            .args(["-Sy"])
+            .output()
+            .map_err(|e| format!("Failed to refresh cache: {}", e))?;
+
+        if !output.status.success() {
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            return Err(format!("Cache refresh failed: {}", stderr));
+        }
+
         Ok(())
     }
 }
 
-fn parse_pacman_output(output: &str) -> Vec<Package> {
+fn parse_paru_output(output: &str) -> Vec<Package> {
     output
         .lines()
         .filter_map(|line| {
             let parts: Vec<&str> = line.split_whitespace().collect();
-            if parts.len() >= 4 {
+            // Expected format: "package-name old-version -> new-version"
+            if parts.len() >= 4 && parts[2] == "->" {
                 Some(Package {
                     name: parts[0].to_string(),
                     current_version: parts[1].to_string(),
                     new_version: parts[3].to_string(),
-                    is_aur: false, // Official repo packages
+                    is_aur: true, // All packages from paru -Qua are AUR
                 })
             } else {
                 None
