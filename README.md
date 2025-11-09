@@ -226,7 +226,7 @@ See `apt.rs`, `pacman.rs`, or `paru.rs` for examples.
 - 🔧 **Check intervals** - Choose from 5, 10, 15, 20, 30, 45, 60, 90, or 120 minutes
 - 🎯 **Smart detection** - Prefers paru > yay > pacman-only
 
-### Version 0.3.0 (2025-11-07)
+### Version 0.4.0 (2025-11-07)
 - 🎉 **Multi-package manager support** - APT and Pacman!
 - 🔄 **Renamed to cosmic-updates** - Universal support
 - 🗂️ **Refactored architecture** - Modular design
