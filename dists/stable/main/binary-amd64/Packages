@@ -3,7 +3,7 @@ Version: 0.4.0
 Architecture: amd64
 Maintainer: VintageTechie <https://vintagetechie.com\>
 Depends: cosmic-session
-Filename: ../../../../pool/main/cosmic-updates_0.4.0_amd64.deb
+Filename: pool/main/cosmic-updates_0.4.0_amd64.deb
 Size: 6415320
 MD5sum: be4a1cbd1d42d7c2a0ac683f43e0c0df
 SHA1: 75c5e63267a71162afaf7c8725b5a29dfa848cfd
