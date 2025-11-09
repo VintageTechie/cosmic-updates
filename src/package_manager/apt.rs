@@ -75,6 +75,7 @@ fn parse_apt_output(output: &str) -> Vec<Package> {
                     name,
                     current_version,
                     new_version,
+                    is_aur: false, // APT packages are never AUR
                 })
             } else {
                 None
@@ -89,46 +90,55 @@ fn get_debug_packages() -> Vec<Package> {
             name: "firefox".to_string(),
             current_version: "120.0".to_string(),
             new_version: "121.0".to_string(),
+            is_aur: false,
         },
         Package {
             name: "libcosmic".to_string(),
             current_version: "0.1.0".to_string(),
             new_version: "0.2.0".to_string(),
+            is_aur: false,
         },
         Package {
             name: "rust-analyzer".to_string(),
             current_version: "2024-01-01".to_string(),
             new_version: "2024-02-01".to_string(),
+            is_aur: false,
         },
         Package {
             name: "linux-image-generic".to_string(),
             current_version: "6.5.0.14".to_string(),
             new_version: "6.5.0.15".to_string(),
+            is_aur: false,
         },
         Package {
             name: "systemd".to_string(),
             current_version: "255.2-1".to_string(),
             new_version: "255.4-1".to_string(),
+            is_aur: false,
         },
         Package {
             name: "libc6".to_string(),
             current_version: "2.39-0ubuntu8".to_string(),
             new_version: "2.39-0ubuntu8.1".to_string(),
+            is_aur: false,
         },
         Package {
             name: "python3".to_string(),
             current_version: "3.12.3-0".to_string(),
             new_version: "3.12.4-0".to_string(),
+            is_aur: false,
         },
         Package {
             name: "curl".to_string(),
             current_version: "8.5.0-2".to_string(),
             new_version: "8.6.0-1".to_string(),
+            is_aur: false,
         },
         Package {
             name: "git".to_string(),
             current_version: "2.43.0".to_string(),
             new_version: "2.44.0".to_string(),
+            is_aur: false,
         },
     ]
 }
