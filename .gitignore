@@ -35,3 +35,5 @@ option2-colored-icons/
 debian/usr/
 debian/DEBIAN/postinst
 debian/DEBIAN/postrm
+cosmic-updates_*/
+*.deb
