@@ -10,6 +10,7 @@ fi
 
 PKGNAME="cosmic-updates"
 DEB_FILE="${PKGNAME}_${VERSION}_amd64.deb"
+GPG_KEY="26D2DE96ED9B7964D2502FFD2A456B067EE07248"
 
 if [ ! -f "$DEB_FILE" ]; then
     echo "Error: $DEB_FILE not found!"
@@ -59,20 +60,30 @@ find main -type f | while read file; do
     sha256sum "$file" | awk '{print " " $1 " " $2}' >> Release
 done
 
+# Sign the Release file
+echo ""
+echo "Signing Release file (you'll need to enter your GPG passphrase)..."
+gpg --default-key $GPG_KEY --armor --detach-sign --output Release.gpg Release
+gpg --default-key $GPG_KEY --armor --clearsign --output InRelease Release
+
 cd ../..
 
-# Commit and push
-git add pool/main/$DEB_FILE dists/stable/Release dists/stable/main/binary-amd64/Packages*
-git commit -m "Publish cosmic-updates ${VERSION} (fix paths)"
+# Commit and push (now includes signature files)
+git add pool/main/$DEB_FILE \
+        dists/stable/Release \
+        dists/stable/Release.gpg \
+        dists/stable/InRelease \
+        dists/stable/main/binary-amd64/Packages*
+git commit -m "Publish cosmic-updates ${VERSION} with GPG signatures"
 git push origin pages
 
-# Switch back to master
-git checkout master
+# Switch back to main
+git checkout main
 
 # Clean up
 rm /tmp/$DEB_FILE
 
 echo ""
-echo "✅ Published to pages branch!"
+echo "✅ Published to pages branch with GPG signatures!"
 echo "⏰ Wait 5-15 minutes for Codeberg Pages to rebuild"
 echo "🔗 Check: https://vintagetechie.codeberg.page/cosmic-updates/"
