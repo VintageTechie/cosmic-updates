@@ -1,0 +1,32 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: VintageTechie
+Label: cosmic-updates
+Suite: stable
+Codename: stable
+Architectures: amd64
+Components: main
+Description: COSMIC Updates APT Repository
+MD5Sum:
+ 5f70996e9c980f0137120d0db7b09cbb main/binary-amd64/Packages.gz
+ 3f919bc25633114ba9927f4749a365d1 main/binary-amd64/Packages
+SHA256:
+ 04018453314cc6dc29520e166c0d269ae6f8fc294311470a6a74c282468993d3 main/binary-amd64/Packages.gz
+ f2568b3bcfa1da60e4ee02fb0e720106e50b8f066d7ee5166e96e626bce971b7 main/binary-amd64/Packages
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEJtLelu2beWTSUC/9KkVrBn7gckgFAmkTy40ACgkQKkVrBn7g
+ckj6bg/8DAE+rXgL4fCDYTT64l1WdvfGTxkU+UnGno7WKmMv8Tml9fw/c/lZDbrv
+VzRlxblDx5ag/a8K3WSAj021kz9EZTZq3cugzZu+Uzkwc7iGMwDx3fHyEUWx85J6
+Lxf3i6quhBoZ8dlQepwVJjXlvueF41muQkeKPUXSqK5iwHMhqxaHvipSKihp+xkn
+8jwjUwpwA63cp20bxOUNBJmG2nxDlhBnNqGoOBnLdHYZVK7YOBJgDoKd/3ZuLjwG
+WDV4Vsn/lLw/Fmhl5pc9RcoIFtczjqUxdZb6m73flyhRmBsh5l9uyPe6BZMHdm05
+J+iqUGE4DhqNfZ4e8GyS3wnAkzuoz6Ci1uAQ2C2UjbqlgO5IB8qdvVYv1r+E8FOX
+98i/FIh3R9SSu6Yyrqxogcdxqu94LjreZ79kdIGuxxfuXau5R3PKY/9AMjHo/7be
+rcy8BBb2XVANtze3+XDlufFksrxw87Y97wnpG2e720d3R29azAuyyeE2xHhD/PED
+tUSl8gACc8CLo/zRq+brRGVOmhvWqThEzBMX1Ss2K6kyT2XmlpF2dKlVhl2osu0c
+OKSlwV8HxXXxd0Sj3Zu5aeYWeP7inw71sk29soJQR1Es9jJRNQ1aXc9+l/imrVgt
+UtbvgWx7X5xiD3+Vnrr+hmVCYWmV5EnFb6+Qok9Og508hSnvUUQ=
+=N3SC
+-----END PGP SIGNATURE-----

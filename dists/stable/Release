@@ -6,8 +6,8 @@ Architectures: amd64
 Components: main
 Description: COSMIC Updates APT Repository
 MD5Sum:
- 233259d02856f570cf0a280d1c076aab main/binary-amd64/Packages
- 4922114cab39023a3cc5d9ba101e1c46 main/binary-amd64/Packages.gz
+ 5f70996e9c980f0137120d0db7b09cbb main/binary-amd64/Packages.gz
+ 3f919bc25633114ba9927f4749a365d1 main/binary-amd64/Packages
 SHA256:
- cb019d7c850694205e14bb093a7773919fd4d5aca5ab8550a31f722197f8fcad main/binary-amd64/Packages
- 42fba1b6504d6aed782510e5324445fb5eabcd7bacf3a39bc79c2f042dc78c4a main/binary-amd64/Packages.gz
+ 04018453314cc6dc29520e166c0d269ae6f8fc294311470a6a74c282468993d3 main/binary-amd64/Packages.gz
+ f2568b3bcfa1da60e4ee02fb0e720106e50b8f066d7ee5166e96e626bce971b7 main/binary-amd64/Packages
