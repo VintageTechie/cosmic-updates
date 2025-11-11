@@ -74,7 +74,13 @@ just install
 
 Add the repository for automatic updates:
 ```bash
-echo "deb [arch=amd64 trusted=yes] https://vintagetechie.codeberg.page/cosmic-updates stable main" | sudo tee /etc/apt/sources.list.d/cosmic-updates.list
+# Import GPG signing key
+wget -qO - https://vintagetechie.codeberg.page/cosmic-updates/cosmic-updates-keyring.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/cosmic-updates.gpg > /dev/null
+
+# Add repository
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/cosmic-updates.gpg] https://vintagetechie.codeberg.page/cosmic-updates stable main" | sudo tee /etc/apt/sources.list.d/cosmic-updates.list
+
+# Update and install
 sudo apt update
 sudo apt install cosmic-updates
 ```
@@ -226,8 +232,9 @@ See `apt.rs`, `pacman.rs`, or `paru.rs` for examples.
 - 📦 **Published to AUR** - `cosmic-updates-bin` and `cosmic-updates-git`
 - 🔧 **Check intervals** - Choose from 5, 10, 15, 20, 30, 45, 60, 90, or 120 minutes
 - 🎯 **Smart detection** - Prefers paru > yay > pacman-only
+- 🔐 **GPG-signed APT repository** - Secure package installation
 
-### Version 0.4.0 (2025-11-07)
+### Version 0.3.0 (2025-11-07)
 - 🎉 **Multi-package manager support** - APT and Pacman!
 - 🔄 **Renamed to cosmic-updates** - Universal support
 - 🗂️ **Refactored architecture** - Modular design
@@ -353,6 +360,11 @@ Built with [Rust](https://www.rust-lang.org/) 🦀 and [libcosmic](https://githu
 - ✅ Settings panel for configuration
 - ✅ Configurable auto-check interval (5-120 minutes)
 - ✅ Config file management
+
+#### GPG Signing (v0.4.0) ✅
+- ✅ GPG-signed APT repository
+- ✅ Automated signing in publish script
+- ✅ Public key distribution via Codeberg Pages
 
 ---
 
