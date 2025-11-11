@@ -1,0 +1,45 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: VintageTechie
+Label: cosmic-updates
+Suite: stable
+Codename: stable
+Architectures: amd64
+Components: main
+Description: APT update checker applet for COSMIC desktop
+Date: Tue, 11 Nov 2025 21:29:40 +0000
+MD5Sum:
+ 76d455a09ec17f7cab10372038ed0595    1156 main/binary-amd64/Packages
+ a66a74302d5710622290346f1d021fde     726 main/binary-amd64/Packages.gz
+ d41d8cd98f00b204e9800998ecf8427e       0 main/i18n/Translation-en
+ 81b3b7f46120ca5a8c9b66dba51b51c4      35 main/i18n/Translation-en.gz
+ 68b329da9893e34099c7d8ad5cb9c940       1 main/binary-amd64/Components
+ f2d89d4db51d7729458e8c5119234b02      32 main/binary-amd64/Components.gz
+ 68b329da9893e34099c7d8ad5cb9c940       1 main/binary-amd64/cnf-commands
+ 4197e03484415a5620f576c4b80385e5      34 main/binary-amd64/cnf-commands.gz
+SHA256:
+ e03d5a1aabb6a6c9b1b4f5151aa1b29772a5166e52ebe72bee4e8fe58f394a2b    1156 main/binary-amd64/Packages
+ 7c00ef19a9eea640084f6c67a41c2f99a5f51ad0d45824ede8f7e2902e527171     726 main/binary-amd64/Packages.gz
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855       0 main/i18n/Translation-en
+ 98ac9ef510466dcfd7136a5e0c193a28f26c3f50ff6946d798768aa2cd8792ae      35 main/i18n/Translation-en.gz
+ 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b       1 main/binary-amd64/Components
+ 95bba5c697d1209f289ce48d1a0033a20d15665f906c4e03e5daa098e525636f      32 main/binary-amd64/Components.gz
+ 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b       1 main/binary-amd64/cnf-commands
+ a64ea7b4e3aa76ed37728f43754a8c9da4b8478060ef34f29cfba4d546d8f93d      34 main/binary-amd64/cnf-commands.gz
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEJtLelu2beWTSUC/9KkVrBn7gckgFAmkTvzIACgkQKkVrBn7g
+ckjxlxAA5VlTonGOBn6Ie0LZlCyqNvKj6V756tD1pQLcF29ocFpkGvfZ/rXd7tEg
+6aI8n536paUBah+YS+HATUew2QsoJJBTRXO+j7WlglBo5TVjW8HRdDmsstMZ3+G+
+xBRxIYPUeOCtrlKvLo1X91IvFfc45tYIBt+cQyeEWnu2nxmwDsGsLE0J4/sxZJuR
+OBSxxPs7qGpnOTtwvivLwx4usvd06xzHDockpgSBaPLmmRcUX9z1+g75lgiiFXvF
+58el0f8qDlTr+R9t5zX0ZaLXR+LN5k37mRfvhxWRzPf++DNW/SZUcIQIVoRtDXGm
+saiMHRBv0J8uGiMkMaRlRQrkIrGhDh5hWGzbjQ7hUi4QHV3gNPYJcPJjoymrf+9C
+f93RKyOEmvtadQp2z6AD0PXsITWFtg1VFs9XEoxKh1wHohWFylK/1U87xtgIxqUM
+x5heRoqts6gUODSE2/8WEtQfyTq4xq7xiQR5ypiPtrHrbhR5M6s0B330sw69ES85
+XgyCaKbOWouasFudBQVS2pj443FQmN7GcbfJ5NaBDdjV6hpVWQjruGS1k71iWecr
+syazdW86+LCHjGz3hXar2EfQmi00rfS2FbxyUwO/rPaNseO48DndSpy8rhqiXDLU
+R45gNusTZ1PWP33dlrTDKkYuFKZslEncqAaQZSexS+tRtJADI9g=
+=gIZ9
+-----END PGP SIGNATURE-----
