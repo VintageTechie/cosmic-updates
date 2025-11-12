@@ -1,0 +1,26 @@
+Package: cosmic-updates
+Version: 1.0.0
+Architecture: amd64
+Maintainer: VintageTechie <https://vintagetechie.com\>
+Depends: cosmic-session
+Filename: pool/main/cosmic-updates_1.0.0_amd64.deb
+Size: 6427376
+MD5sum: 3a6fcde1e73f0f8d87f5b552865be674
+SHA1: e0b6e8061c909258a46ce0df67fd77873921dea3
+SHA256: 7b2a9e1eb9b503c61c2946dafc5f4d9bc53c3fad6df6d44c28e6ad24ebd3bdfa
+Section: utils
+Priority: optional
+Homepage: https://codeberg.org/VintageTechie/cosmic-updates
+Description: Universal package update checker applet for COSMIC Desktop
+ A COSMIC Desktop applet that monitors package updates with support for
+ multiple package managers including APT.
+ .
+ Features:
+  - Custom penguin icons that change when updates are available
+  - Color-coded version numbers (red for old, green for new)
+  - Configurable check intervals (5-120 minutes)
+  - Settings UI with persistent configuration
+  - Scrollable package list for large updates
+  - One-click upgrade with terminal progress
+  - Auto-detects your package manager at runtime
+
