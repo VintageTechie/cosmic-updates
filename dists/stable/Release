@@ -1,36 +1,36 @@
 Origin: VintageTechie
-Label: cosmic-updates
+Label: cosmic-ext-applet-updates
 Suite: stable
 Codename: stable
 Architectures: amd64
 Components: main
-Description: COSMIC Updates APT Repository
-Date: Wed, 12 Nov 2025 15:23:45 +0000
-Valid-Until: Tue, 10 Feb 2026 15:23:45 +0000
+Description: Updates Applet for COSMIC APT Repository
+Date: Wed, 12 Nov 2025 20:20:04 +0000
+Valid-Until: Tue, 10 Feb 2026 20:20:04 +0000
 MD5Sum:
  81b3b7f46120ca5a8c9b66dba51b51c4 35 main/i18n/Translation-en.gz
  d41d8cd98f00b204e9800998ecf8427e 0 main/i18n/Translation-en
- bfe0c970cdce11fb32dc4fe5b3073e2e 633 main/binary-amd64/Packages.gz
+ b64c7fe55557af4494013193bc739efe 835 main/binary-amd64/Packages.gz
  68b329da9893e34099c7d8ad5cb9c940 1 main/binary-amd64/cnf-commands
  68b329da9893e34099c7d8ad5cb9c940 1 main/binary-amd64/Components
  f2d89d4db51d7729458e8c5119234b02 32 main/binary-amd64/Components.gz
  4197e03484415a5620f576c4b80385e5 34 main/binary-amd64/cnf-commands.gz
- a694c110721b934c4f6209795b038c5e 1017 main/binary-amd64/Packages
+ 14ed7fba18873d0f5ed85a7435cac5ec 2119 main/binary-amd64/Packages
 SHA256:
  98ac9ef510466dcfd7136a5e0c193a28f26c3f50ff6946d798768aa2cd8792ae 35 main/i18n/Translation-en.gz
  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/i18n/Translation-en
- 3c87cc59d066c1bc2f2a189fea4444aeda8f3d23a92adae6cd321b40b22c64b1 633 main/binary-amd64/Packages.gz
+ 153fe9f97278787b8d3c35b76b59343a4b1e2451dba095c2509af53aad15bf4c 835 main/binary-amd64/Packages.gz
  01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b 1 main/binary-amd64/cnf-commands
  01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b 1 main/binary-amd64/Components
  95bba5c697d1209f289ce48d1a0033a20d15665f906c4e03e5daa098e525636f 32 main/binary-amd64/Components.gz
  a64ea7b4e3aa76ed37728f43754a8c9da4b8478060ef34f29cfba4d546d8f93d 34 main/binary-amd64/cnf-commands.gz
- 022b3dc82f5fc2e6f367f2c9c8bd527a5ab74196c70dcc2e31167bfdeb08e79d 1017 main/binary-amd64/Packages
+ 9cc22a06ef2c8f7f4c81da471b71201c51d63efd7686d135569e59a73702bf92 2119 main/binary-amd64/Packages
 SHA512:
  80b5b53e1ccb2615e1fa24fcc045230cda3e3d848b3964d6bfb7db5189129a23be3e9c14377056c713e05109101abaa794c9876de23915ca19a2ece31d8467a7 35 main/i18n/Translation-en.gz
  cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e 0 main/i18n/Translation-en
- 5ddbc9ffee58dfafd2a8975084e088fd22aa75d9112be7363057d1b10fbe8cd50f9fe507f6bd218e9016284507c1dd87221ebdaddc2ae03a47044f373171e827 633 main/binary-amd64/Packages.gz
+ 1010b09e659057008fc08409f9e0488dbd5e385661ed5d1ee50ff61247f5e7e2f5d33f127c79de89d10352103cb1ed2e7c821ef1bc742e0c560ae291cb81b48d 835 main/binary-amd64/Packages.gz
  be688838ca8686e5c90689bf2ab585cef1137c999b48c70b92f67a5c34dc15697b5d11c982ed6d71be1e1e7f7b4e0733884aa97c3f7a339a8ed03577cf74be09 1 main/binary-amd64/cnf-commands
  be688838ca8686e5c90689bf2ab585cef1137c999b48c70b92f67a5c34dc15697b5d11c982ed6d71be1e1e7f7b4e0733884aa97c3f7a339a8ed03577cf74be09 1 main/binary-amd64/Components
  397a0c0f85ca66178c06f4282a7978b279436670c23060b4d02c6ee110c2a4e03e6bff06ff48f68be95a324a5509506555f0ebc0193dc1d0fdfb3d28b58cfe61 32 main/binary-amd64/Components.gz
  aefda93518af19a75795fb22c7de903a4116c5a4936ce9fd76e59dc7df13c062f36aabf88ebdf16baafe3dcf83f6a5614e71b883181c2a177a4ab4ae239c54b5 34 main/binary-amd64/cnf-commands.gz
- 6840fced7eabb1d3e40cb5f8e8d5405c83cf8ae8becf95c1b2d39a9dca9d8de314ff43bcc997ae32a23e9289f37f321db2df0fd31e3f190b7feb9ca4857f4b04 1017 main/binary-amd64/Packages
+ 3acae0a150cc6b0d4d74ecb91631f9bb46e5abcd50ea337e0ded83cf0792bffd375e16136c7b184325029c23033ff813b408fb220201b926ed78a0d0cda720d2 2119 main/binary-amd64/Packages
