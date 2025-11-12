@@ -1,0 +1,21 @@
+Package: cosmic-ext-applet-updates
+Version: 1.1.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: cosmic-session
+Maintainer: VintageTechie <https://vintagetechie.com\>
+Description: Updates Applet for COSMIC Desktop
+ A community COSMIC Desktop applet that monitors package updates with support for
+ multiple package managers including APT, Pacman, and AUR helpers.
+ .
+ Features:
+  - Custom penguin icons that change when updates are available
+  - Color-coded version numbers (red for old, green for new)
+  - Desktop notifications for new updates
+  - Configurable check intervals (5-120 minutes)
+  - Settings UI with persistent configuration
+  - Scrollable package list for large updates
+  - One-click upgrade with terminal progress
+  - Auto-detects your package manager at runtime
+Homepage: https://github.com/VintageTechie/cosmic-ext-applet-updates

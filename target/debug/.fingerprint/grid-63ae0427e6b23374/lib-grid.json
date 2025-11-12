@@ -1,0 +1,1 @@
+{"rustc":4826714390000139368,"features":"[\"std\"]","declared_features":"[\"default\", \"serde\", \"std\"]","target":9882100205239097670,"profile":2241668132362809309,"path":6238731882006824276,"deps":[],"local":[{"CheckDepInfo":{"dep_info":"debug/.fingerprint/grid-63ae0427e6b23374/dep-lib-grid","checksum":false}}],"rustflags":[],"config":2069994364910194474,"compile_kind":0}

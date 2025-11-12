@@ -1,0 +1,10 @@
+/projects/cosmic-ext-applet-updates/target/debug/deps/wayland_protocols-fe8436f1c576dcb7.d: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/protocol_macro.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/ext.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/wp.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/xdg.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/xwayland.rs
+
+/projects/cosmic-ext-applet-updates/target/debug/deps/libwayland_protocols-fe8436f1c576dcb7.rmeta: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/protocol_macro.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/ext.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/wp.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/xdg.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/xwayland.rs
+
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/lib.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/protocol_macro.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/ext.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/wp.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/xdg.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-protocols-0.32.9/src/xwayland.rs:

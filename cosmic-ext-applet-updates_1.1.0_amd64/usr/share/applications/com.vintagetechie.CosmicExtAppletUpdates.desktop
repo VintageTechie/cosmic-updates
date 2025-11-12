@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Updates Applet for COSMIC
+Comment=Universal package update checker applet
+Type=Application
+Exec=cosmic-ext-applet-updates
+Terminal=false
+Categories=COSMIC;
+Keywords=COSMIC;Iced;
+Icon=tux-normal
+StartupNotify=true
+NoDisplay=true
+X-CosmicApplet=true
+X-CosmicHoverPopup=Auto
+X-OverflowPriority=10

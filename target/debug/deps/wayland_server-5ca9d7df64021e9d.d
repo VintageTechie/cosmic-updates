@@ -1,0 +1,10 @@
+/projects/cosmic-ext-applet-updates/target/debug/deps/wayland_server-5ca9d7df64021e9d.d: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/client.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/dispatch.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/display.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/global.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/socket.rs
+
+/projects/cosmic-ext-applet-updates/target/debug/deps/libwayland_server-5ca9d7df64021e9d.rmeta: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/client.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/dispatch.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/display.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/global.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/socket.rs
+
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/lib.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/client.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/dispatch.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/display.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/global.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wayland-server-0.31.10/src/socket.rs:

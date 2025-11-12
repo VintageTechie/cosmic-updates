@@ -1,0 +1,12 @@
+/projects/cosmic-ext-applet-updates/target/release/deps/drm_ffi-e4bb648a7a308e07.d: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/utils.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/gem.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/ioctl.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/mode.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/syncobj.rs
+
+/projects/cosmic-ext-applet-updates/target/release/deps/libdrm_ffi-e4bb648a7a308e07.rlib: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/utils.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/gem.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/ioctl.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/mode.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/syncobj.rs
+
+/projects/cosmic-ext-applet-updates/target/release/deps/libdrm_ffi-e4bb648a7a308e07.rmeta: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/utils.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/gem.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/ioctl.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/mode.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/syncobj.rs
+
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/lib.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/utils.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/gem.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/ioctl.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/mode.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/drm-ffi-0.7.1/src/syncobj.rs:

@@ -1,0 +1,14 @@
+/projects/cosmic-ext-applet-updates/target/debug/deps/uuid-a1c28ff16a74b05c.d: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/macros.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/builder.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/error.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/non_nil.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/parser.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/fmt.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/timestamp.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/external.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/external/serde_support.rs
+
+/projects/cosmic-ext-applet-updates/target/debug/deps/libuuid-a1c28ff16a74b05c.rmeta: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/macros.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/builder.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/error.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/non_nil.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/parser.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/fmt.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/timestamp.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/external.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/external/serde_support.rs
+
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/lib.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/macros.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/builder.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/error.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/non_nil.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/parser.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/fmt.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/timestamp.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/external.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/uuid-1.18.1/src/external/serde_support.rs:

@@ -1,0 +1,11 @@
+/projects/cosmic-ext-applet-updates/target/release/deps/iced_accessibility-60ad3c925abb4f75.d: /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/lib.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/a11y_tree.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/id.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/node.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/traits.rs
+
+/projects/cosmic-ext-applet-updates/target/release/deps/libiced_accessibility-60ad3c925abb4f75.rlib: /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/lib.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/a11y_tree.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/id.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/node.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/traits.rs
+
+/projects/cosmic-ext-applet-updates/target/release/deps/libiced_accessibility-60ad3c925abb4f75.rmeta: /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/lib.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/a11y_tree.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/id.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/node.rs /home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/traits.rs
+
+/home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/lib.rs:
+/home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/a11y_tree.rs:
+/home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/id.rs:
+/home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/node.rs:
+/home/john/.cargo/git/checkouts/libcosmic-41009aea1d72760b/d2f7fde/iced/accessibility/src/traits.rs:

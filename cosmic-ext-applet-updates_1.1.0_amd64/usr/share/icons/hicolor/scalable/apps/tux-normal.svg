@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- Extra large, high contrast for panel embedding -->
+  
+  <!-- Body - very dark -->
+  <ellipse cx="24" cy="28" rx="14" ry="18" fill="#000000" stroke="#333333" stroke-width="2"/>
+  
+  <!-- Belly - bright white -->
+  <ellipse cx="24" cy="30" rx="9" ry="13" fill="#ffffff"/>
+  
+  <!-- Head - very dark -->
+  <circle cx="24" cy="14" r="9" fill="#000000" stroke="#333333" stroke-width="2"/>
+  
+  <!-- Eyes - large and bright -->
+  <circle cx="21" cy="12" r="3.5" fill="#ffffff"/>
+  <circle cx="27" cy="12" r="3.5" fill="#ffffff"/>
+  <circle cx="21" cy="11.5" r="1.8" fill="#000000"/>
+  <circle cx="27" cy="11.5" r="1.8" fill="#000000"/>
+  
+  <!-- Beak - bright orange -->
+  <path d="M 24 17 L 20 21 L 28 21 Z" fill="#ff8800" stroke="#cc6600" stroke-width="1.5"/>
+  
+  <!-- Feet - bright orange -->
+  <ellipse cx="19" cy="44" rx="3.5" ry="2.5" fill="#ff8800" stroke="#cc6600" stroke-width="1"/>
+  <ellipse cx="29" cy="44" rx="3.5" ry="2.5" fill="#ff8800" stroke="#cc6600" stroke-width="1"/>
+  
+  <!-- Wings - relaxed -->
+  <ellipse cx="12" cy="26" rx="3.5" ry="7" fill="#000000" stroke="#333333" stroke-width="1.5" transform="rotate(-20 12 26)"/>
+  <ellipse cx="36" cy="26" rx="3.5" ry="7" fill="#000000" stroke="#333333" stroke-width="1.5" transform="rotate(20 36 26)"/>
+</svg>

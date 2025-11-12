@@ -1,0 +1,11 @@
+/projects/cosmic-ext-applet-updates/target/release/deps/immutable_chunkmap-d871b831badaf264.d: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/avl.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/chunk.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/map.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/set.rs
+
+/projects/cosmic-ext-applet-updates/target/release/deps/libimmutable_chunkmap-d871b831badaf264.rlib: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/avl.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/chunk.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/map.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/set.rs
+
+/projects/cosmic-ext-applet-updates/target/release/deps/libimmutable_chunkmap-d871b831badaf264.rmeta: /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/lib.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/avl.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/chunk.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/map.rs /home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/set.rs
+
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/lib.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/avl.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/chunk.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/map.rs:
+/home/john/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/immutable-chunkmap-2.1.2/src/set.rs:
