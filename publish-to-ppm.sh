@@ -78,7 +78,7 @@ git commit -m "Publish cosmic-updates ${VERSION} with GPG signatures"
 git push origin pages
 
 # Switch back to main
-git checkout main
+git checkout master
 
 # Clean up
 rm /tmp/$DEB_FILE
