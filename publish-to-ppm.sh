@@ -47,6 +47,7 @@ Codename: stable
 Architectures: amd64
 Components: main
 Description: COSMIC Updates APT Repository
+Date: $(date -R -u)
 RELEASE
 
 # Add checksums
