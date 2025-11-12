@@ -86,4 +86,4 @@ rm /tmp/$DEB_FILE
 echo ""
 echo "✅ Published to pages branch with GPG signatures!"
 echo "⏰ Wait 5-15 minutes for Codeberg Pages to rebuild"
-echo "🔗 Check: https://vintagetechie.codeberg.page/cosmic-updates/"
+echo "🔗 Check: https://vintagetechie.github.io/cosmic-updates/"

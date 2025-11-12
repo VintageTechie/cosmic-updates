@@ -53,7 +53,7 @@ Description: Universal package update checker applet for COSMIC Desktop
   - Scrollable package list for large updates
   - One-click upgrade with terminal progress
   - Auto-detects your package manager at runtime
-Homepage: https://codeberg.org/VintageTechie/cosmic-updates
+Homepage: https://github.com/VintageTechie/cosmic-updates
 CONTROL
 
 # Create postinst script

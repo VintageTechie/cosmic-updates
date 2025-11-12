@@ -29,10 +29,10 @@ echo "Calculate SHA256:"
 sha256sum "${TARBALL}"
 echo ""
 echo "Next steps:"
-echo "1. Create release on Codeberg: https://codeberg.org/VintageTechie/cosmic-updates/releases/new"
+echo "1. Create release on GitHub: https://github.com/VintageTechie/cosmic-updates/releases/new"
 echo "2. Tag: v${VERSION}"
 echo "3. Upload ${TARBALL}"
-echo "4. Update AUR PKGBUILD with new SHA256"
+echo "4. Update AUR PKGBUILD with new SHA256 and GitHub URL"
 
 # Cleanup
 rm -rf release
