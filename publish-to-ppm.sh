@@ -48,6 +48,7 @@ Architectures: amd64
 Components: main
 Description: COSMIC Updates APT Repository
 Date: $(date -R -u)
+Valid-Until: $(date -R -u -d '+90 days')
 RELEASE
 
 # Add checksums
