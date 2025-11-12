@@ -65,8 +65,8 @@ done
 # Sign the Release file
 echo ""
 echo "Signing Release file (you'll need to enter your GPG passphrase)..."
-gpg --default-key $GPG_KEY --armor --detach-sign --output Release.gpg Release
-gpg --default-key $GPG_KEY --armor --clearsign --output InRelease Release
+gpg --digest-algo SHA512 --default-key $GPG_KEY --armor --detach-sign --output Release.gpg Release
+gpg --digest-algo SHA512 --default-key $GPG_KEY --armor --clearsign --output InRelease Release
 
 cd ../..
 
