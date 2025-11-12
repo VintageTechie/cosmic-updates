@@ -67,6 +67,7 @@ Requirements:
 - Rust 1.70 or later
 - libcosmic (via system packages or git)
 - cargo
+- pacman-contrib (for Arch-based systems)
 
 ```bash
 git clone https://github.com/VintageTechie/cosmic-ext-applet-updates.git
