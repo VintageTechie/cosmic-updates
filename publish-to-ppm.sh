@@ -76,7 +76,7 @@ git add pool/main/$DEB_FILE \
         dists/stable/InRelease \
         dists/stable/main/binary-amd64/Packages*
 git commit -m "Publish cosmic-updates ${VERSION} with GPG signatures"
-git push origin pages
+git push github pages
 
 # Switch back to main
 git checkout main
@@ -87,4 +87,4 @@ rm /tmp/$DEB_FILE
 echo ""
 echo "✅ Published to pages branch with GPG signatures!"
 echo "⏰ Wait 5-15 minutes for Codeberg Pages to rebuild"
-echo "🔗 Check: https://vintagetechie.github.io/cosmic-updates/"
+echo "🔗 Check: https://apt.vintagetechie.com"
