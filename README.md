@@ -1,8 +1,8 @@
-# COSMIC Updates
+# Updates Applet for COSMIC
 
-A universal package update checker applet for COSMIC Desktop that supports multiple package managers with AUR support and configurable settings.
+A universal package update checker applet for COSMIC Desktop that supports multiple package managers with AUR support, desktop notifications, and configurable settings.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)
 
@@ -10,11 +10,12 @@ A universal package update checker applet for COSMIC Desktop that supports multi
 
 - 🐧 **Custom penguin mascot** - Changes when updates are available
 - 🎨 **Color-coded versions** - Red for old, green for new versions
+- 🔔 **Desktop notifications** - Alerts when new updates are available
 - 📦 **Multi-package manager support**:
   - APT (Debian, Ubuntu, Pop!_OS)
   - Pacman (Arch, Manjaro, CachyOS)
   - AUR support via paru or yay
-- ⚙️ **Configurable settings** - Check intervals from 5-120 minutes
+- ⚙️ **Configurable settings** - Check intervals, notifications, urgency threshold
 - 📜 **Scrollable package list** - Handles large update lists
 - 🔄 **Auto-detection** - Detects your package manager automatically
 - ⚡ **One-click upgrades** - Terminal window for progress
@@ -31,24 +32,19 @@ A universal package update checker applet for COSMIC Desktop that supports multi
 Add the repository for automatic updates:
 
 ```bash
-# Import GPG signing key
-wget -qO - https://apt.vintagetechie.com/cosmic-updates-keyring.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/cosmic-updates.gpg > /dev/null
-
-# Add repository
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/cosmic-updates.gpg] https://apt.vintagetechie.com stable main" | sudo tee /etc/apt/sources.list.d/cosmic-updates.list
-
-# Update and install
+wget -qO - https://apt.vintagetechie.com/cosmic-ext-applet-updates-keyring.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/cosmic-ext-applet-updates.gpg > /dev/null
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/cosmic-ext-applet-updates.gpg] https://apt.vintagetechie.com stable main" | sudo tee /etc/apt/sources.list.d/cosmic-ext-applet-updates.list
 sudo apt update
-sudo apt install cosmic-updates
+sudo apt install cosmic-ext-applet-updates
 ```
 
 #### Option 2: Direct .deb Download
 
-**[📥 Download cosmic-updates_1.0.0_amd64.deb](https://apt.vintagetechie.com/pool/main/cosmic-updates_1.0.0_amd64.deb)**
+**[📥 Download cosmic-ext-applet-updates_1.1.0_amd64.deb](https://apt.vintagetechie.com/pool/main/cosmic-ext-applet-updates_1.1.0_amd64.deb)**
 
 ```bash
-wget https://apt.vintagetechie.com/pool/main/cosmic-updates_1.0.0_amd64.deb
-sudo apt install ./cosmic-updates_1.0.0_amd64.deb
+wget https://apt.vintagetechie.com/pool/main/cosmic-ext-applet-updates_1.1.0_amd64.deb
+sudo apt install ./cosmic-ext-applet-updates_1.1.0_amd64.deb
 ```
 
 ### Arch Linux / CachyOS / Manjaro
@@ -56,21 +52,13 @@ sudo apt install ./cosmic-updates_1.0.0_amd64.deb
 #### Option 1: AUR Binary Package (Recommended)
 
 ```bash
-# Using paru
-paru -S cosmic-updates-bin
-
-# Or using yay
-yay -S cosmic-updates-bin
+paru -S cosmic-ext-applet-updates-bin
 ```
 
 #### Option 2: AUR Source Package
 
 ```bash
-# Using paru
-paru -S cosmic-updates-git
-
-# Or using yay
-yay -S cosmic-updates-git
+paru -S cosmic-ext-applet-updates-git
 ```
 
 ### Building from Source
@@ -81,19 +69,12 @@ Requirements:
 - cargo
 
 ```bash
-# Clone the repository
-git clone https://github.com/VintageTechie/cosmic-updates.git
-cd cosmic-updates
-
-# Build release binary
+git clone https://github.com/VintageTechie/cosmic-ext-applet-updates.git
+cd cosmic-ext-applet-updates
 cargo build --release
-
-# Install manually
-sudo cp target/release/cosmic-updates /usr/bin/
-sudo cp com.vintagetechie.CosmicUpdates.desktop /usr/share/applications/
+sudo cp target/release/cosmic-ext-applet-updates /usr/bin/
+sudo cp com.vintagetechie.CosmicExtAppletUpdates.desktop /usr/share/applications/
 sudo cp icons/hicolor/scalable/apps/tux-*.svg /usr/share/icons/hicolor/scalable/apps/
-
-# Restart COSMIC panel
 killall cosmic-panel && cosmic-panel &
 ```
 
@@ -105,13 +86,13 @@ After installation:
 - Open COSMIC Settings
 - Go to **Desktop → Panel → Configure panel applets**
 - Click **Add applet**
-- Find **"Updates"** in the applets list
+- Find **"Updates Applet for COSMIC"** in the applets list
 - Click to add it to your panel
 
 ### Icons
 
 - 🐧 **Normal penguin** - System is up to date
-- 🐧❗ **Alert penguin** - Updates available!
+- 🐧‼ **Alert penguin** - Updates available!
 
 ### Interface
 
@@ -120,17 +101,27 @@ Click the applet icon to:
 - See separate counts for official and AUR packages
 - Click **Upgrade** to install updates (opens terminal)
 - Click **Check Now** to manually refresh
-- Access **Settings** to configure check interval
+- Access **Settings** to configure behavior
 
 ### Settings
 
 Configure the applet behavior:
 - **Check Interval**: Choose from 5 to 120 minutes
-- Settings are automatically saved to `~/.config/cosmic-updates/config.toml`
+- **Enable Notifications**: Toggle desktop notifications on/off
+- **Urgency Threshold**: Set when notifications become urgent (default: 10 updates)
+- Settings are automatically saved to `~/.config/cosmic-ext-applet-updates/config.toml`
+
+### Notifications
+
+The applet sends desktop notifications when:
+- Updates go from 0 to any number (new updates detected)
+- The number of available updates increases
+
+Notification urgency automatically escalates when update count exceeds your configured threshold.
 
 ## Package Manager Detection
 
-cosmic-updates automatically detects your package manager:
+The applet automatically detects your package manager:
 
 | Distribution | Package Manager | AUR Support |
 |--------------|----------------|-------------|
@@ -147,10 +138,11 @@ For Arch-based systems, AUR support preference order:
 ### Project Structure
 
 ```
-cosmic-updates/
+cosmic-ext-applet-updates/
 ├── src/
 │   ├── main.rs              # Main applet logic
 │   ├── config.rs            # Settings management
+│   ├── state.rs             # State tracking for notifications
 │   └── package_manager/     # Package manager implementations
 │       ├── mod.rs           # Trait definition
 │       ├── apt.rs           # APT implementation
@@ -159,7 +151,8 @@ cosmic-updates/
 │       └── yay.rs           # Yay AUR helper
 ├── icons/                   # Penguin icons
 ├── build-deb.sh            # Build .deb package
-└── publish-to-ppm.sh       # Publish to APT repository
+├── publish-to-ppm.sh       # Publish to APT repository
+└── justfile                # Build automation
 ```
 
 ### Adding New Package Managers
@@ -181,42 +174,80 @@ To add support for a new package manager:
 
 **Debian package:**
 ```bash
-./build-deb.sh 1.0.0
+./build-deb.sh 1.1.0
 ```
 
 **Publish to APT repository:**
 ```bash
-./publish-to-ppm.sh 1.0.0
+./publish-to-ppm.sh 1.1.0
 ```
 
 ## Configuration
 
-Configuration file: `~/.config/cosmic-updates/config.toml`
+Configuration file: `~/.config/cosmic-ext-applet-updates/config.toml`
 
 ```toml
 check_interval_minutes = 30
+enable_notifications = true
+urgency_threshold = 10
+```
+
+**Note:** Configuration automatically migrates from the old `~/.config/cosmic-updates/` location if present.
+
+## Migration from cosmic-updates
+
+If you previously had `cosmic-updates` installed:
+
+**APT (Pop!_OS/Ubuntu/Debian):**
+```bash
+sudo apt remove cosmic-updates
+sudo rm /etc/apt/sources.list.d/cosmic-updates.list
+sudo rm /etc/apt/trusted.gpg.d/cosmic-updates.gpg
+```
+
+Then follow the installation instructions above. Your settings will automatically migrate.
+
+**AUR (Arch/CachyOS/Manjaro):**
+
+The old `cosmic-updates-git` and `cosmic-updates-bin` packages are now transitional packages that automatically install the new versions. Simply update:
+
+```bash
+paru -Syu
+```
+
+Or explicitly install the new package:
+
+```bash
+paru -S cosmic-ext-applet-updates-git
 ```
 
 ## Uninstalling
 
 **Pop!_OS / Ubuntu / Debian:**
 ```bash
-sudo apt remove cosmic-updates
-sudo rm /etc/apt/sources.list.d/cosmic-updates.list
+sudo apt remove cosmic-ext-applet-updates
+sudo rm /etc/apt/sources.list.d/cosmic-ext-applet-updates.list
 ```
 
 **Arch / Manjaro / CachyOS:**
 ```bash
-# For -bin package
-paru -R cosmic-updates-bin
-
-# For -git package
-paru -R cosmic-updates-git
+paru -R cosmic-ext-applet-updates-bin
 ```
 
 ## Changelog
 
-### Version 1.0.0 (2025-11-12)
+### Version 1.1.0 (2025-11-12)
+**Notifications & Namespace Rename**
+- 🔔 Desktop notifications for new updates
+- ⚙️ Notification settings (enable/disable, urgency threshold)
+- 💾 State tracking for intelligent notification triggers
+- 📦 **BREAKING:** Renamed to `cosmic-ext-applet-updates` per System76 guidance
+- 🆔 Updated APP_ID to `com.vintagetechie.CosmicExtAppletUpdates`
+- 📁 Config auto-migrates from `~/.config/cosmic-updates/`
+- 🏷️ Display name: "Updates Applet for COSMIC"
+- 🔗 Repository moved to GitHub
+
+### Version 1.0.0 (2025-11-11)
 **Production Release**
 - 🔐 GPG-signed APT repository
 - 🏠 Migrated to GitHub Pages hosting
@@ -231,14 +262,14 @@ paru -R cosmic-updates-git
 - 📊 Separate counters (official vs AUR)
 - ⚙️ Settings UI with configurable check intervals
 - 💾 Persistent configuration (TOML)
-- 📦 Published to AUR (cosmic-updates-bin, cosmic-updates-git)
+- 📦 Published to AUR
 
 ### Version 0.3.0 (2025-11-07)
 **Universal Package Manager Support**
 - 🔄 Renamed to cosmic-updates
-- 🏗️ Refactored architecture - modular design
+- 🗂️ Refactored architecture - modular design
 - 🔍 Auto-detection of package manager
-- 🆔 Updated APP_ID: `com.vintagetechie.CosmicUpdates`
+- 🆔 Updated APP_ID
 - 📦 Arch/CachyOS support - Full Pacman integration
 
 ### Version 0.2.0 (2025-11-06)
@@ -260,7 +291,7 @@ paru -R cosmic-updates-git
 Contributions are welcome! Here's how you can help:
 
 ### Bug Reports
-Open an issue on [GitHub](https://github.com/VintageTechie/cosmic-updates/issues) with:
+Open an issue on [GitHub](https://github.com/VintageTechie/cosmic-ext-applet-updates/issues) with:
 - Description of the issue
 - Steps to reproduce
 - Expected vs actual behavior
@@ -300,28 +331,28 @@ Built with:
 ## Links
 
 - **Website**: https://vintagetechie.com
-- **GitHub**: https://github.com/VintageTechie/cosmic-updates
+- **GitHub**: https://github.com/VintageTechie/cosmic-ext-applet-updates
 - **APT Repository**: https://apt.vintagetechie.com
 - **AUR Packages**: 
-  - [cosmic-updates-bin](https://aur.archlinux.org/packages/cosmic-updates-bin)
-  - [cosmic-updates-git](https://aur.archlinux.org/packages/cosmic-updates-git)
-- **Issues**: https://github.com/VintageTechie/cosmic-updates/issues
+  - [cosmic-ext-applet-updates-bin](https://aur.archlinux.org/packages/cosmic-ext-applet-updates-bin)
+  - [cosmic-ext-applet-updates-git](https://aur.archlinux.org/packages/cosmic-ext-applet-updates-git)
+- **Issues**: https://github.com/VintageTechie/cosmic-ext-applet-updates/issues
 
 ## Roadmap
 
-### Near-Term (v1.1.x)
+### Near-Term (v1.2.x)
 - [ ] DNF support (Fedora)
 - [ ] Zypper support (openSUSE)
 - [ ] Flatpak update detection
-- [ ] Desktop notifications for available updates
+- [ ] rpm-ostree support (Fedora Atomic)
 
-### Mid-Term (v1.2.x)
+### Mid-Term (v1.3.x)
 - [ ] Update history viewer
 - [ ] Update scheduling
 - [ ] Selective package updates
 - [ ] System restart notifications
 
-### Long-Term
+### Long-Term (v2.0+)
 - [ ] Enhanced analytics and statistics
 - [ ] Update rollback support
 - [ ] Automated update management
