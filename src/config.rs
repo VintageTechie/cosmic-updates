@@ -5,22 +5,49 @@ use std::path::PathBuf;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
     pub check_interval_minutes: u64,
+    #[serde(default = "default_true")]
+    pub enable_notifications: bool,
+    #[serde(default = "default_urgency_threshold")]
+    pub urgency_threshold: u32,
+}
+
+fn default_true() -> bool {
+    true
+}
+
+fn default_urgency_threshold() -> u32 {
+    10
 }
 
 impl Default for Config {
     fn default() -> Self {
         Self {
             check_interval_minutes: 30,
+            enable_notifications: true,
+            urgency_threshold: 10,
         }
     }
 }
 
 impl Config {
-    /// Get the path to the config file
+    /// Get the path to the config file (checks new location, falls back to old)
     fn config_path() -> Option<PathBuf> {
         dirs::config_dir().map(|mut path| {
-            path.push("cosmic-updates");
+            // Try new location first
+            path.push("cosmic-ext-applet-updates");
             path.push("config.toml");
+            
+            // If new location doesn't exist, check old location
+            if !path.exists() {
+                if let Some(mut old_path) = dirs::config_dir() {
+                    old_path.push("cosmic-updates");
+                    old_path.push("config.toml");
+                    if old_path.exists() {
+                        return old_path;
+                    }
+                }
+            }
+            
             path
         })
     }

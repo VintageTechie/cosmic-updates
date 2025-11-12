@@ -1,14 +1,14 @@
 #!/bin/bash
-# Publish cosmic-updates to APT repository (GitHub Pages)
+# Publish cosmic-ext-applet-updates to APT repository (GitHub Pages)
 
 VERSION=$1
 if [ -z "$VERSION" ]; then
     echo "Usage: ./publish-to-ppm.sh VERSION"
-    echo "Example: ./publish-to-ppm.sh 1.0.0"
+    echo "Example: ./publish-to-ppm.sh 1.1.0"
     exit 1
 fi
 
-PKGNAME="cosmic-updates"
+PKGNAME="cosmic-ext-applet-updates"
 DEB_FILE="${PKGNAME}_${VERSION}_amd64.deb"
 GPG_KEY="26D2DE96ED9B7964D2502FFD2A456B067EE07248"
 
@@ -33,12 +33,12 @@ gzip -kf dists/stable/main/binary-amd64/Packages
 cd dists/stable
 cat > Release << RELEASE
 Origin: VintageTechie
-Label: cosmic-updates
+Label: cosmic-ext-applet-updates
 Suite: stable
 Codename: stable
 Architectures: amd64
 Components: main
-Description: COSMIC Updates APT Repository
+Description: Updates Applet for COSMIC APT Repository
 Date: $(date -R -u)
 Valid-Until: $(date -R -u -d '+90 days')
 RELEASE
@@ -70,7 +70,7 @@ git add pool/main/$DEB_FILE \
         dists/stable/Release.gpg \
         dists/stable/InRelease \
         dists/stable/main/binary-amd64/Packages*
-git commit -m "Publish cosmic-updates ${VERSION} with GPG signatures"
+git commit -m "Publish cosmic-ext-applet-updates ${VERSION} with GPG signatures"
 git push github pages
 
 git checkout main

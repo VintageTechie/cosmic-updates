@@ -4,8 +4,10 @@
 //! It provides a visual indicator when updates are available and allows one-click upgrades.
 mod config;
 mod package_manager;
+mod state;
 
 use config::Config;
+use state::State;
 use cosmic::app::{Core, Task};
 use cosmic::iced::platform_specific::shell::commands::popup::{destroy_popup, get_popup};
 use cosmic::iced::{Alignment, Length, Limits, Subscription};
@@ -20,10 +22,10 @@ const ICON_NORMAL: &[u8] = include_bytes!("../icons/hicolor/scalable/apps/tux-no
 const ICON_ALERT: &[u8] = include_bytes!("../icons/hicolor/scalable/apps/tux-alert.svg");
 
 /// Unique application identifier for the COSMIC desktop
-const APP_ID: &str = "com.vintagetechie.CosmicUpdates";
+const APP_ID: &str = "com.vintagetechie.CosmicExtAppletUpdates";
 
 /// Application version
-const VERSION: &str = "1.0.0";
+const VERSION: &str = "1.1.0";
 
 /// Entry point for the applet
 fn main() -> cosmic::iced::Result {
@@ -43,6 +45,8 @@ struct UpdateChecker {
     pending_config: Config,
     interval_options: Vec<String>,
     showing_settings: bool,
+    state: State,
+    threshold_input_value: String,
 }
 
 impl Default for UpdateChecker {
@@ -51,6 +55,7 @@ impl Default for UpdateChecker {
             package_manager::detect_package_manager().expect("No supported package manager found");
 
         let config = Config::load();
+        let state = State::load();
 
         Self {
             core: Core::default(),
@@ -61,7 +66,7 @@ impl Default for UpdateChecker {
             error: None,
             package_manager,
             config: config.clone(),
-            pending_config: config,
+            pending_config: config.clone(),
             interval_options: vec![
                 "5 minutes".to_string(),
                 "10 minutes".to_string(),
@@ -74,6 +79,8 @@ impl Default for UpdateChecker {
                 "120 minutes".to_string(),
             ],
             showing_settings: false,
+            state,
+            threshold_input_value: config.urgency_threshold.to_string(),
         }
     }
 }
@@ -109,6 +116,10 @@ enum Message {
     Tick,
     /// Update check interval in settings
     SetCheckInterval(u64),
+    /// Toggle notifications on/off
+    ToggleNotifications(bool),
+    /// Update urgency threshold (input string)
+    SetUrgencyThreshold(String),
     /// Save settings
     SaveSettings,
 }
@@ -174,6 +185,7 @@ impl Application for UpdateChecker {
             Message::OpenSettings => {
                 // Reset pending config and show settings view
                 self.pending_config = self.config.clone();
+                self.threshold_input_value = self.config.urgency_threshold.to_string();
                 self.showing_settings = true;
                 Task::none()
             }
@@ -204,8 +216,22 @@ impl Application for UpdateChecker {
                 self.checking = false;
                 match result {
                     Ok(packages) => {
+                        let new_count = packages.len();
+                        let old_count = self.state.last_update_count;
+                        
                         self.packages = packages;
                         self.error = None;
+                        
+                        // Send notification if enabled and count increased or went from 0 to any
+                        if self.config.enable_notifications && new_count > old_count {
+                            self.send_notification(new_count);
+                        }
+                        
+                        // Update state with new count
+                        self.state.last_update_count = new_count;
+                        if let Err(e) = self.state.save() {
+                            eprintln!("Failed to save state: {}", e);
+                        }
                     }
                     Err(e) => {
                         self.error = Some(e);
@@ -279,6 +305,18 @@ impl Application for UpdateChecker {
             }
             Message::SetCheckInterval(minutes) => {
                 self.pending_config.check_interval_minutes = minutes;
+                Task::none()
+            }
+            Message::ToggleNotifications(enabled) => {
+                self.pending_config.enable_notifications = enabled;
+                Task::none()
+            }
+            Message::SetUrgencyThreshold(input) => {
+                self.threshold_input_value = input.clone();
+                // Try to parse, update config if valid
+                if let Ok(value) = input.parse::<u32>() {
+                    self.pending_config.urgency_threshold = value;
+                }
                 Task::none()
             }
             Message::SaveSettings => {
@@ -489,6 +527,27 @@ impl Application for UpdateChecker {
 }
 
 impl UpdateChecker {
+    /// Send a desktop notification about available updates
+    fn send_notification(&self, count: usize) {
+        use notify_rust::{Notification, Urgency};
+        
+        let urgency = if count >= self.config.urgency_threshold as usize {
+            Urgency::Critical
+        } else {
+            Urgency::Normal
+        };
+        
+        let body = format!("{} update{} available", count, if count == 1 { "" } else { "s" });
+        
+        // Try to send notification, ignore errors (don't crash if notification fails)
+        let _ = Notification::new()
+            .summary("COSMIC Updates")
+            .body(&body)
+            .icon("cosmic-updates")
+            .urgency(urgency)
+            .show();
+    }
+
     /// Render the settings view
     fn settings_view(&self) -> Element<Message> {
         let header = widget::text("Settings").size(20);
@@ -537,6 +596,36 @@ impl UpdateChecker {
             .padding([8, 0]) // Add vertical padding for better spacing
             .align_y(Alignment::Center);
 
+        // Notifications toggle
+        let notifications_label = widget::text("Enable notifications:").size(14);
+        let notifications_toggle = widget::toggler(self.pending_config.enable_notifications)
+            .on_toggle(Message::ToggleNotifications);
+        
+        let notifications_row = widget::row()
+            .push(notifications_label)
+            .push(widget::horizontal_space())
+            .push(notifications_toggle)
+            .spacing(12)
+            .padding([8, 0])
+            .align_y(Alignment::Center);
+
+        // Urgency threshold input
+        let threshold_label = widget::text("Urgency threshold:").size(14);
+        let threshold_input = widget::text_input(
+            "Number of updates",
+            &self.threshold_input_value
+        )
+        .on_input(Message::SetUrgencyThreshold)
+        .width(Length::Fixed(100.0));
+        
+        let threshold_row = widget::row()
+            .push(threshold_label)
+            .push(widget::horizontal_space())
+            .push(threshold_input)
+            .spacing(12)
+            .padding([8, 0])
+            .align_y(Alignment::Center);
+
         // Buttons
         let buttons = widget::row()
             .push(widget::button::standard("Back").on_press(Message::CloseSettings))
@@ -549,6 +638,10 @@ impl UpdateChecker {
                 .push(header)
                 .push(widget::vertical_space().height(Length::Fixed(20.0)))
                 .push(interval_row)
+                .push(widget::vertical_space().height(Length::Fixed(12.0)))
+                .push(notifications_row)
+                .push(widget::vertical_space().height(Length::Fixed(12.0)))
+                .push(threshold_row)
                 .push(widget::vertical_space().height(Length::Fixed(20.0)))
                 .push(buttons)
                 .spacing(12)

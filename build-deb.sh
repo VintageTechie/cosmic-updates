@@ -1,14 +1,14 @@
 #!/bin/bash
-# Build .deb package for cosmic-updates
+# Build .deb package for cosmic-ext-applet-updates
 
 VERSION=$1
 if [ -z "$VERSION" ]; then
     echo "Usage: ./build-deb.sh VERSION"
-    echo "Example: ./build-deb.sh 0.4.0"
+    echo "Example: ./build-deb.sh 1.1.0"
     exit 1
 fi
 
-PKGNAME="cosmic-updates"
+PKGNAME="cosmic-ext-applet-updates"
 ARCH="amd64"
 PKGDIR="${PKGNAME}_${VERSION}_${ARCH}"
 
@@ -25,35 +25,36 @@ mkdir -p "$PKGDIR/usr/share/applications"
 mkdir -p "$PKGDIR/usr/share/icons/hicolor/scalable/apps"
 
 # Copy files
-cp target/release/cosmic-updates "$PKGDIR/usr/bin/"
-chmod +x "$PKGDIR/usr/bin/cosmic-updates"
+cp target/release/cosmic-ext-applet-updates "$PKGDIR/usr/bin/"
+chmod +x "$PKGDIR/usr/bin/cosmic-ext-applet-updates"
 
-cp com.vintagetechie.CosmicUpdates.desktop "$PKGDIR/usr/share/applications/"
+cp com.vintagetechie.CosmicExtAppletUpdates.desktop "$PKGDIR/usr/share/applications/"
 cp icons/hicolor/scalable/apps/tux-normal.svg "$PKGDIR/usr/share/icons/hicolor/scalable/apps/"
 cp icons/hicolor/scalable/apps/tux-alert.svg "$PKGDIR/usr/share/icons/hicolor/scalable/apps/"
 
 # Create control file
 cat > "$PKGDIR/DEBIAN/control" << CONTROL
-Package: cosmic-updates
+Package: cosmic-ext-applet-updates
 Version: $VERSION
 Section: utils
 Priority: optional
 Architecture: amd64
 Depends: cosmic-session
 Maintainer: VintageTechie <https://vintagetechie.com\>
-Description: Universal package update checker applet for COSMIC Desktop
- A COSMIC Desktop applet that monitors package updates with support for
- multiple package managers including APT.
+Description: Updates Applet for COSMIC Desktop
+ A community COSMIC Desktop applet that monitors package updates with support for
+ multiple package managers including APT, Pacman, and AUR helpers.
  .
  Features:
   - Custom penguin icons that change when updates are available
   - Color-coded version numbers (red for old, green for new)
+  - Desktop notifications for new updates
   - Configurable check intervals (5-120 minutes)
   - Settings UI with persistent configuration
   - Scrollable package list for large updates
   - One-click upgrade with terminal progress
   - Auto-detects your package manager at runtime
-Homepage: https://github.com/VintageTechie/cosmic-updates
+Homepage: https://github.com/VintageTechie/cosmic-ext-applet-updates
 CONTROL
 
 # Create postinst script
