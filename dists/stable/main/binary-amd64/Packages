@@ -4,13 +4,13 @@ Architecture: amd64
 Maintainer: VintageTechie <https://vintagetechie.com\>
 Depends: cosmic-session
 Filename: pool/main/cosmic-updates_1.0.0_amd64.deb
-Size: 6427376
-MD5sum: 3a6fcde1e73f0f8d87f5b552865be674
-SHA1: e0b6e8061c909258a46ce0df67fd77873921dea3
-SHA256: 7b2a9e1eb9b503c61c2946dafc5f4d9bc53c3fad6df6d44c28e6ad24ebd3bdfa
+Size: 6427072
+MD5sum: b3de531d6bdac72a3e2c71ba325909d8
+SHA1: 4194c825801eb4565e28128442f64f0454b76aea
+SHA256: c450eabaa72634eceb876754e94b924041b7cf6f5d5625a750fcd28cac003ac3
 Section: utils
 Priority: optional
-Homepage: https://codeberg.org/VintageTechie/cosmic-updates
+Homepage: https://github.com/VintageTechie/cosmic-updates
 Description: Universal package update checker applet for COSMIC Desktop
  A COSMIC Desktop applet that monitors package updates with support for
  multiple package managers including APT.
