@@ -1,10 +1,10 @@
 #!/bin/bash
-# Publish cosmic-updates to APT repository (Codeberg Pages)
+# Publish cosmic-updates to APT repository (GitHub Pages)
 
 VERSION=$1
 if [ -z "$VERSION" ]; then
     echo "Usage: ./publish-to-ppm.sh VERSION"
-    echo "Example: ./publish-to-ppm.sh 0.4.0"
+    echo "Example: ./publish-to-ppm.sh 1.0.0"
     exit 1
 fi
 
@@ -62,6 +62,11 @@ find main -type f | while read file; do
     sha256sum "$file" | awk '{print " " $1 " " $2}' >> Release
 done
 
+echo "SHA512:" >> Release
+find main -type f | while read file; do
+    sha512sum "$file" | awk '{print " " $1 " " $2}' >> Release
+done
+
 # Sign the Release file
 echo ""
 echo "Signing Release file (you'll need to enter your GPG passphrase)..."
@@ -87,5 +92,5 @@ rm /tmp/$DEB_FILE
 
 echo ""
 echo "✅ Published to pages branch with GPG signatures!"
-echo "⏰ Wait 5-15 minutes for Codeberg Pages to rebuild"
+echo "⏰ Wait 5-15 minutes for GitHub Pages to rebuild"
 echo "🔗 Check: https://apt.vintagetechie.com"
