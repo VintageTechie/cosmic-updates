@@ -402,7 +402,7 @@ impl Application for UpdateChecker {
         let header = widget::row()
             .push(header_icon)
             .push(widget::horizontal_space())
-            .push(widget::text("COSMIC Updates").size(18))
+            .push(widget::text("Updates").size(18))
             .push(widget::horizontal_space())
             .push(
                 widget::column()
@@ -541,7 +541,7 @@ impl UpdateChecker {
         
         // Try to send notification, ignore errors (don't crash if notification fails)
         let _ = Notification::new()
-            .summary("COSMIC Updates")
+            .summary("Updates Applet for COSMIC")
             .body(&body)
             .icon("cosmic-updates")
             .urgency(urgency)
