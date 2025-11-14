@@ -46,6 +46,8 @@ struct UpdateChecker {
     packages: Vec<Package>,
     checking: bool,
     upgrading: bool,
+    refreshing_cache: bool,
+    checking_upgrade_status: bool,
     error: Option<String>,
     package_manager: Option<PackageManager>,
     config: Config,
@@ -75,6 +77,8 @@ impl Default for UpdateChecker {
             packages: Vec::new(),
             checking: false,
             upgrading: false,
+            refreshing_cache: false,
+            checking_upgrade_status: false,
             error: initial_error,
             package_manager,
             config: config.clone(),
@@ -215,7 +219,11 @@ impl Application for UpdateChecker {
                 Task::none()
             }
             Message::CheckForUpdates => {
-                // Start checking for updates
+                // Start checking for updates (guard against concurrent checks)
+                if self.checking {
+                    return Task::none();
+                }
+
                 if let Some(pm) = &self.package_manager {
                     self.checking = true;
                     self.error = None;
@@ -283,8 +291,13 @@ impl Application for UpdateChecker {
                 }
             }
             Message::CheckUpgradeStatus => {
-                // Poll to see if upgrade is still running
+                // Poll to see if upgrade is still running (guard against overlapping checks)
+                if self.checking_upgrade_status {
+                    return Task::none();
+                }
+
                 if let Some(pm) = &self.package_manager {
+                    self.checking_upgrade_status = true;
                     let pm = pm.clone();
                     Task::perform(async move { pm.is_running().await }, |is_running| {
                         cosmic::Action::App(Message::UpgradeStatusChecked(is_running))
@@ -294,6 +307,7 @@ impl Application for UpdateChecker {
                 }
             }
             Message::UpgradeStatusChecked(is_running) => {
+                self.checking_upgrade_status = false;
                 if !is_running && self.upgrading {
                     // Upgrade finished, refresh cache before checking for updates
                     self.upgrading = false;
@@ -303,8 +317,13 @@ impl Application for UpdateChecker {
                 }
             }
             Message::RefreshCache => {
-                // Refresh the package cache
+                // Refresh the package cache (guard against concurrent refreshes)
+                if self.refreshing_cache {
+                    return Task::none();
+                }
+
                 if let Some(pm) = &self.package_manager {
+                    self.refreshing_cache = true;
                     let pm = pm.clone();
                     Task::perform(async move { pm.refresh_cache().await }, |result| {
                         cosmic::Action::App(Message::CacheRefreshed(result))
@@ -316,6 +335,7 @@ impl Application for UpdateChecker {
                 }
             }
             Message::CacheRefreshed(result) => {
+                self.refreshing_cache = false;
                 match result {
                     Ok(()) => {
                         // Cache refreshed, now check for updates
