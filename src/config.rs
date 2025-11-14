@@ -16,7 +16,7 @@ fn default_true() -> bool {
 }
 
 fn default_urgency_threshold() -> u32 {
-    10
+    10 // Default: consider critical when 10+ updates available
 }
 
 impl Default for Config {

@@ -27,6 +27,12 @@ const APP_ID: &str = "com.vintagetechie.CosmicExtAppletUpdates";
 /// Application version
 const VERSION: &str = "1.1.0";
 
+/// Minimum urgency threshold value
+const MIN_URGENCY_THRESHOLD: u32 = 1;
+
+/// Maximum urgency threshold value
+const MAX_URGENCY_THRESHOLD: u32 = 999;
+
 /// Entry point for the applet
 fn main() -> cosmic::iced::Result {
     cosmic::applet::run::<UpdateChecker>(())
@@ -338,23 +344,45 @@ impl Application for UpdateChecker {
             }
             Message::SetUrgencyThreshold(input) => {
                 self.threshold_input_value = input.clone();
-                // Try to parse, update config if valid
+                // Try to parse and validate, update config if valid
                 if let Ok(value) = input.parse::<u32>() {
-                    self.pending_config.urgency_threshold = value;
+                    if value >= MIN_URGENCY_THRESHOLD && value <= MAX_URGENCY_THRESHOLD {
+                        self.pending_config.urgency_threshold = value;
+                    }
+                    // If out of bounds, keep the input value but don't update config
+                    // This allows the user to see their input while typing
                 }
                 Task::none()
             }
             Message::SaveSettings => {
-                // Save config to file
-                if let Err(e) = self.pending_config.save() {
-                    self.error = Some(format!("Failed to save settings: {}", e));
-                    Task::none()
-                } else {
-                    // Apply the new config
-                    self.config = self.pending_config.clone();
-                    // Go back to main view
-                    self.showing_settings = false;
-                    Task::none()
+                // Validate the input string can be parsed as a valid number
+                match self.threshold_input_value.parse::<u32>() {
+                    Ok(value) if value >= MIN_URGENCY_THRESHOLD && value <= MAX_URGENCY_THRESHOLD => {
+                        // Valid value, proceed with save
+                        if let Err(e) = self.pending_config.save() {
+                            self.error = Some(format!("Failed to save settings: {}", e));
+                            Task::none()
+                        } else {
+                            // Apply the new config
+                            self.config = self.pending_config.clone();
+                            // Go back to main view
+                            self.showing_settings = false;
+                            Task::none()
+                        }
+                    }
+                    Ok(_) => {
+                        // Valid number but out of range
+                        self.error = Some(format!(
+                            "Urgency threshold must be between {} and {}",
+                            MIN_URGENCY_THRESHOLD, MAX_URGENCY_THRESHOLD
+                        ));
+                        Task::none()
+                    }
+                    Err(_) => {
+                        // Not a valid number
+                        self.error = Some("Urgency threshold must be a number".to_string());
+                        Task::none()
+                    }
                 }
             }
         }
@@ -647,11 +675,18 @@ impl UpdateChecker {
         )
         .on_input(Message::SetUrgencyThreshold)
         .width(Length::Fixed(100.0));
-        
+
+        let threshold_help = widget::text(format!(
+            "({}-{})",
+            MIN_URGENCY_THRESHOLD, MAX_URGENCY_THRESHOLD
+        ))
+        .size(11);
+
         let threshold_row = widget::row()
             .push(threshold_label)
             .push(widget::horizontal_space())
             .push(threshold_input)
+            .push(threshold_help)
             .spacing(12)
             .padding([8, 0])
             .align_y(Alignment::Center);
@@ -663,20 +698,29 @@ impl UpdateChecker {
             .push(widget::button::suggested("Save").on_press(Message::SaveSettings))
             .spacing(12);
 
-        let content = self.core.applet.popup_container(
-            widget::column()
-                .push(header)
-                .push(widget::vertical_space().height(Length::Fixed(20.0)))
-                .push(interval_row)
+        let mut settings_column = widget::column()
+            .push(header)
+            .push(widget::vertical_space().height(Length::Fixed(20.0)))
+            .push(interval_row)
+            .push(widget::vertical_space().height(Length::Fixed(12.0)))
+            .push(notifications_row)
+            .push(widget::vertical_space().height(Length::Fixed(12.0)))
+            .push(threshold_row);
+
+        // Show error message if present
+        if let Some(error) = &self.error {
+            settings_column = settings_column
                 .push(widget::vertical_space().height(Length::Fixed(12.0)))
-                .push(notifications_row)
-                .push(widget::vertical_space().height(Length::Fixed(12.0)))
-                .push(threshold_row)
-                .push(widget::vertical_space().height(Length::Fixed(20.0)))
-                .push(buttons)
-                .spacing(12)
-                .padding(16),
-        );
+                .push(widget::text(format!("❌ {}", error)).size(13));
+        }
+
+        settings_column = settings_column
+            .push(widget::vertical_space().height(Length::Fixed(20.0)))
+            .push(buttons)
+            .spacing(12)
+            .padding(16);
+
+        let content = self.core.applet.popup_container(settings_column);
 
         content.into()
     }
