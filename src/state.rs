@@ -1,6 +1,6 @@
+use crate::utils;
 use serde::{Deserialize, Serialize};
 use std::fs;
-use std::path::PathBuf;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct State {
@@ -17,25 +17,8 @@ impl Default for State {
 
 impl State {
     /// Get the path to the state file (checks new location, falls back to old)
-    fn state_path() -> Option<PathBuf> {
-        dirs::config_dir().map(|mut path| {
-            // Try new location first
-            path.push("cosmic-ext-applet-updates");
-            path.push("state.toml");
-            
-            // If new location doesn't exist, check old location
-            if !path.exists() {
-                if let Some(mut old_path) = dirs::config_dir() {
-                    old_path.push("cosmic-updates");
-                    old_path.push("state.toml");
-                    if old_path.exists() {
-                        return old_path;
-                    }
-                }
-            }
-            
-            path
-        })
+    fn state_path() -> Option<std::path::PathBuf> {
+        utils::get_app_file_path("state.toml")
     }
 
     /// Load state from file, or create default if it doesn't exist

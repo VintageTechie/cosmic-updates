@@ -1,6 +1,6 @@
+use crate::utils;
 use serde::{Deserialize, Serialize};
 use std::fs;
-use std::path::PathBuf;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
@@ -31,25 +31,8 @@ impl Default for Config {
 
 impl Config {
     /// Get the path to the config file (checks new location, falls back to old)
-    fn config_path() -> Option<PathBuf> {
-        dirs::config_dir().map(|mut path| {
-            // Try new location first
-            path.push("cosmic-ext-applet-updates");
-            path.push("config.toml");
-            
-            // If new location doesn't exist, check old location
-            if !path.exists() {
-                if let Some(mut old_path) = dirs::config_dir() {
-                    old_path.push("cosmic-updates");
-                    old_path.push("config.toml");
-                    if old_path.exists() {
-                        return old_path;
-                    }
-                }
-            }
-            
-            path
-        })
+    fn config_path() -> Option<std::path::PathBuf> {
+        utils::get_app_file_path("config.toml")
     }
 
     /// Load config from file, or create default if it doesn't exist

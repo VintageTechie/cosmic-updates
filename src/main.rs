@@ -5,6 +5,7 @@
 mod config;
 mod package_manager;
 mod state;
+mod utils;
 
 use config::Config;
 use state::State;
