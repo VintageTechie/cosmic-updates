@@ -177,11 +177,18 @@ impl Application for UpdateChecker {
                     destroy_popup(p)
                 } else {
                     // Popup is closed, open it
+                    // Safely get the main window ID, return early if unavailable
+                    let Some(main_window_id) = self.core.main_window_id() else {
+                        // This should never happen in a properly initialized applet,
+                        // but we handle it defensively to avoid panics
+                        return Task::none();
+                    };
+
                     let new_id = WindowId::unique();
                     self.popup.replace(new_id);
 
                     let mut popup_settings = self.core.applet.get_popup_settings(
-                        self.core.main_window_id().unwrap(),
+                        main_window_id,
                         new_id,
                         None,
                         None,
