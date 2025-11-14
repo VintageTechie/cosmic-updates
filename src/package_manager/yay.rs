@@ -1,39 +1,52 @@
 use super::Package;
 use std::process::Command as StdCommand;
+use tokio::task;
 
 #[derive(Clone)]
 pub struct YayPackageManager;
 
 impl YayPackageManager {
     pub async fn check_updates(&self) -> Result<Vec<Package>, String> {
-        let output = StdCommand::new("yay")
-            .args(["-Qua"])
-            .output()
-            .map_err(|e| format!("Failed to run yay: {}", e))?;
+        task::spawn_blocking(|| {
+            let output = StdCommand::new("yay")
+                .args(["-Qua"])
+                .output()
+                .map_err(|e| format!("Failed to run yay: {}", e))?;
 
-        if !output.status.success() {
-            return Ok(Vec::new());
-        }
+            if !output.status.success() {
+                return Ok(Vec::new());
+            }
 
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        let packages = parse_yay_output(&stdout);
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            let packages = parse_yay_output(&stdout);
 
-        Ok(packages)
+            Ok(packages)
+        })
+        .await
+        .map_err(|e| format!("Task join error: {}", e))?
     }
 
     pub async fn run_upgrade(&self) -> Result<(), String> {
         // yay -Syu handles both official repos and AUR
-        StdCommand::new("cosmic-term")
-            .args(["-e", "yay", "-Syu"])
-            .spawn()
-            .map_err(|e| format!("Failed to launch terminal: {}", e))?;
+        task::spawn_blocking(|| {
+            StdCommand::new("cosmic-term")
+                .args(["-e", "yay", "-Syu"])
+                .spawn()
+                .map_err(|e| format!("Failed to launch terminal: {}", e))?;
 
-        Ok(())
+            Ok(())
+        })
+        .await
+        .map_err(|e| format!("Task join error: {}", e))?
     }
 
     pub async fn is_running(&self) -> bool {
         // Check if pacman lock exists (yay uses pacman)
-        std::path::Path::new("/var/lib/pacman/db.lck").exists()
+        task::spawn_blocking(|| {
+            std::path::Path::new("/var/lib/pacman/db.lck").exists()
+        })
+        .await
+        .unwrap_or(false)
     }
 
     pub fn name(&self) -> &'static str {
@@ -42,17 +55,21 @@ impl YayPackageManager {
 
     pub async fn refresh_cache(&self) -> Result<(), String> {
         // yay -Sy refreshes both official and AUR databases
-        let output = StdCommand::new("yay")
-            .args(["-Sy"])
-            .output()
-            .map_err(|e| format!("Failed to refresh cache: {}", e))?;
+        task::spawn_blocking(|| {
+            let output = StdCommand::new("yay")
+                .args(["-Sy"])
+                .output()
+                .map_err(|e| format!("Failed to refresh cache: {}", e))?;
 
-        if !output.status.success() {
-            let stderr = String::from_utf8_lossy(&output.stderr);
-            return Err(format!("Cache refresh failed: {}", stderr));
-        }
+            if !output.status.success() {
+                let stderr = String::from_utf8_lossy(&output.stderr);
+                return Err(format!("Cache refresh failed: {}", stderr));
+            }
 
-        Ok(())
+            Ok(())
+        })
+        .await
+        .map_err(|e| format!("Task join error: {}", e))?
     }
 }
 
