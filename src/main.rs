@@ -26,7 +26,7 @@ const ICON_ALERT: &[u8] = include_bytes!("../icons/hicolor/scalable/apps/tux-ale
 const APP_ID: &str = "com.vintagetechie.CosmicExtAppletUpdates";
 
 /// Application version
-const VERSION: &str = "1.1.0";
+const VERSION: &str = "1.1.1";
 
 /// Minimum urgency threshold value
 const MIN_URGENCY_THRESHOLD: u32 = 1;
@@ -441,7 +441,7 @@ impl Application for UpdateChecker {
     }
 
     /// Render the panel icon view
-    fn view(&self) -> Element<Self::Message> {
+    fn view(&self) -> Element<'_, Self::Message> {
         let count = self.packages.len();
         let icon_data = if count > 0 { ICON_ALERT } else { ICON_NORMAL };
         let svg_handle = widget::svg::Handle::from_memory(icon_data);
@@ -460,7 +460,7 @@ impl Application for UpdateChecker {
     }
 
     /// Render the popup window view
-    fn view_window(&self, id: window::Id) -> Element<Self::Message> {
+    fn view_window(&self, id: window::Id) -> Element<'_, Self::Message> {
         // Main popup window
         if !matches!(self.popup, Some(p) if p == id) {
             return widget::text("").into();
@@ -635,7 +635,7 @@ impl UpdateChecker {
     }
 
     /// Render the settings view
-    fn settings_view(&self) -> Element<Message> {
+    fn settings_view(&self) -> Element<'_, Message> {
         let header = widget::text("Settings").size(20);
 
         let current_interval = self.pending_config.check_interval_minutes;
