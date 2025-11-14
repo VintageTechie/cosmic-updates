@@ -40,7 +40,7 @@ struct UpdateChecker {
     checking: bool,
     upgrading: bool,
     error: Option<String>,
-    package_manager: PackageManager,
+    package_manager: Option<PackageManager>,
     config: Config,
     pending_config: Config,
     interval_options: Vec<String>,
@@ -51,11 +51,16 @@ struct UpdateChecker {
 
 impl Default for UpdateChecker {
     fn default() -> Self {
-        let package_manager =
-            package_manager::detect_package_manager().expect("No supported package manager found");
-
+        let package_manager = package_manager::detect_package_manager();
         let config = Config::load();
         let state = State::load();
+
+        // Set initial error if no package manager found
+        let initial_error = if package_manager.is_none() {
+            Some("No supported package manager found. Please install apt, pacman, paru, or yay.".to_string())
+        } else {
+            None
+        };
 
         Self {
             core: Core::default(),
@@ -63,7 +68,7 @@ impl Default for UpdateChecker {
             packages: Vec::new(),
             checking: false,
             upgrading: false,
-            error: None,
+            error: initial_error,
             package_manager,
             config: config.clone(),
             pending_config: config.clone(),
@@ -204,12 +209,17 @@ impl Application for UpdateChecker {
             }
             Message::CheckForUpdates => {
                 // Start checking for updates
-                self.checking = true;
-                self.error = None;
-                let pm = self.package_manager.clone();
-                Task::perform(async move { pm.check_updates().await }, |result| {
-                    cosmic::Action::App(Message::UpdatesFound(result))
-                })
+                if let Some(pm) = &self.package_manager {
+                    self.checking = true;
+                    self.error = None;
+                    let pm = pm.clone();
+                    Task::perform(async move { pm.check_updates().await }, |result| {
+                        cosmic::Action::App(Message::UpdatesFound(result))
+                    })
+                } else {
+                    self.error = Some("No package manager available".to_string());
+                    Task::none()
+                }
             }
             Message::UpdatesFound(result) => {
                 // Process the result of checking for updates
@@ -241,11 +251,16 @@ impl Application for UpdateChecker {
             }
             Message::Upgrade => {
                 // Start the upgrade process
-                self.error = None;
-                let pm = self.package_manager.clone();
-                Task::perform(async move { pm.run_upgrade().await }, |result| {
-                    cosmic::Action::App(Message::UpgradeStarted(result))
-                })
+                if let Some(pm) = &self.package_manager {
+                    self.error = None;
+                    let pm = pm.clone();
+                    Task::perform(async move { pm.run_upgrade().await }, |result| {
+                        cosmic::Action::App(Message::UpgradeStarted(result))
+                    })
+                } else {
+                    self.error = Some("No package manager available".to_string());
+                    Task::none()
+                }
             }
             Message::UpgradeStarted(result) => {
                 // Process the result of starting the upgrade
@@ -262,10 +277,14 @@ impl Application for UpdateChecker {
             }
             Message::CheckUpgradeStatus => {
                 // Poll to see if upgrade is still running
-                let pm = self.package_manager.clone();
-                Task::perform(async move { pm.is_running().await }, |is_running| {
-                    cosmic::Action::App(Message::UpgradeStatusChecked(is_running))
-                })
+                if let Some(pm) = &self.package_manager {
+                    let pm = pm.clone();
+                    Task::perform(async move { pm.is_running().await }, |is_running| {
+                        cosmic::Action::App(Message::UpgradeStatusChecked(is_running))
+                    })
+                } else {
+                    Task::none()
+                }
             }
             Message::UpgradeStatusChecked(is_running) => {
                 if !is_running && self.upgrading {
@@ -278,10 +297,16 @@ impl Application for UpdateChecker {
             }
             Message::RefreshCache => {
                 // Refresh the package cache
-                let pm = self.package_manager.clone();
-                Task::perform(async move { pm.refresh_cache().await }, |result| {
-                    cosmic::Action::App(Message::CacheRefreshed(result))
-                })
+                if let Some(pm) = &self.package_manager {
+                    let pm = pm.clone();
+                    Task::perform(async move { pm.refresh_cache().await }, |result| {
+                        cosmic::Action::App(Message::CacheRefreshed(result))
+                    })
+                } else {
+                    Task::done(cosmic::Action::App(Message::CacheRefreshed(
+                        Err("No package manager available".to_string())
+                    )))
+                }
             }
             Message::CacheRefreshed(result) => {
                 match result {
@@ -399,6 +424,11 @@ impl Application for UpdateChecker {
             .height(Length::Fixed(32.0));
 
         // Create header with icon and title
+        let pm_name = self.package_manager
+            .as_ref()
+            .map(|pm| pm.name())
+            .unwrap_or("No Package Manager");
+
         let header = widget::row()
             .push(header_icon)
             .push(widget::horizontal_space())
@@ -407,7 +437,7 @@ impl Application for UpdateChecker {
             .push(
                 widget::column()
                     .push(widget::text(format!("v{}", VERSION)).size(11))
-                    .push(widget::text(self.package_manager.name()).size(10))
+                    .push(widget::text(pm_name).size(10))
                     .spacing(2)
                     .align_x(Alignment::End),
             )
