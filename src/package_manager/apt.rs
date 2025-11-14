@@ -45,9 +45,20 @@ impl AptPackageManager {
 
     pub async fn is_running(&self) -> bool {
         task::spawn_blocking(|| {
-            std::path::Path::new("/var/lib/dpkg/lock-frontend").exists()
+            // Check both lock files and running processes
+            let locks_exist = std::path::Path::new("/var/lib/dpkg/lock-frontend").exists()
                 || std::path::Path::new("/var/lib/apt/lists/lock").exists()
-                || std::path::Path::new("/var/cache/apt/archives/lock").exists()
+                || std::path::Path::new("/var/cache/apt/archives/lock").exists();
+
+            // Check if apt, apt-get, or dpkg processes are running
+            let processes_running = StdCommand::new("pgrep")
+                .arg("-x")
+                .arg("apt|apt-get|dpkg")
+                .output()
+                .map(|output| output.status.success())
+                .unwrap_or(false);
+
+            locks_exist || processes_running
         })
         .await
         .unwrap_or(false)

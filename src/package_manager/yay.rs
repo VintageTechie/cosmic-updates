@@ -41,9 +41,19 @@ impl YayPackageManager {
     }
 
     pub async fn is_running(&self) -> bool {
-        // Check if pacman lock exists (yay uses pacman)
         task::spawn_blocking(|| {
-            std::path::Path::new("/var/lib/pacman/db.lck").exists()
+            // Check both lock file and running processes
+            let lock_exists = std::path::Path::new("/var/lib/pacman/db.lck").exists();
+
+            // Check if yay or pacman processes are running
+            let process_running = StdCommand::new("pgrep")
+                .arg("-x")
+                .arg("yay|pacman")
+                .output()
+                .map(|output| output.status.success())
+                .unwrap_or(false);
+
+            lock_exists || process_running
         })
         .await
         .unwrap_or(false)
