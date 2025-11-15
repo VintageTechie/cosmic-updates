@@ -2,7 +2,12 @@
 
 # Release artifacts
 *.tar.gz
+*.deb
+*.rpm
 release/
+release-tarball/
+*_amd64/
+cosmic-updates_*/
 
 # IDE
 .vscode/
@@ -14,10 +19,7 @@ release/
 .DS_Store
 Thumbs.db
 
-# Build artifacts
-*.deb
-*.rpm
-*.deb
+# Debian build artifacts
 debian/usr/
 debian/DEBIAN/
 debian/
@@ -29,11 +31,3 @@ icons/**/*-final.svg
 
 # Extracted test files
 option2-colored-icons/
-
-# Build artifacts
-*.deb
-debian/usr/
-debian/DEBIAN/postinst
-debian/DEBIAN/postrm
-cosmic-updates_*/
-*.deb
