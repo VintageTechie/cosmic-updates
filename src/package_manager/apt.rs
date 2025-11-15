@@ -99,27 +99,51 @@ impl AptPackageManager {
     }
 }
 
+/// Parse APT output into a list of packages
+///
+/// Expected format: "package/repo version [architecture] [upgradable from: old_version]"
+/// Example: "firefox/jammy-updates 121.0+build1-0ubuntu0.22.04.1 amd64 [upgradable from: 120.0+build2-0ubuntu0.22.04.1]"
 fn parse_apt_output(output: &str) -> Vec<Package> {
     output
         .lines()
-        .skip(1)
+        .skip(1) // Skip header line
         .filter_map(|line| {
+            // Only process lines that contain the upgradable marker
+            if !line.contains("[upgradable from:") {
+                return None;
+            }
+
             let parts: Vec<&str> = line.split_whitespace().collect();
 
-            if parts.len() >= 6 && line.contains("[upgradable from:") {
-                let name = parts[0].split('/').next()?.to_string();
-                let new_version = parts[1].to_string();
-                let current_version = parts[5].trim_end_matches(']').to_string();
-
-                Some(Package {
-                    name,
-                    current_version,
-                    new_version,
-                    is_aur: false, // APT packages are never AUR
-                })
-            } else {
-                None
+            // Validate we have enough parts for a complete package entry
+            if parts.len() < 6 {
+                eprintln!("Warning: Skipping malformed APT line (insufficient fields): {}", line);
+                return None;
             }
+
+            // Extract package name (before the '/')
+            let name = parts.get(0)?.split('/').next()?.to_string();
+            if name.is_empty() {
+                eprintln!("Warning: Skipping APT line with empty package name: {}", line);
+                return None;
+            }
+
+            // Extract new version
+            let new_version = parts.get(1)?.to_string();
+
+            // Extract current version (remove trailing ']')
+            let current_version = parts.get(5)?.trim_end_matches(']').to_string();
+            if current_version.is_empty() {
+                eprintln!("Warning: Skipping APT line with empty version: {}", line);
+                return None;
+            }
+
+            Some(Package {
+                name,
+                current_version,
+                new_version,
+                is_aur: false,
+            })
         })
         .collect()
 }

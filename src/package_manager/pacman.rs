@@ -83,21 +83,46 @@ impl PacmanPackageManager {
     }
 }
 
+/// Parse Pacman checkupdates output into a list of packages
+///
+/// Expected format: "package current_version -> new_version"
+/// Example: "firefox 121.0-1 -> 122.0-1"
 fn parse_pacman_output(output: &str) -> Vec<Package> {
     output
         .lines()
         .filter_map(|line| {
             let parts: Vec<&str> = line.split_whitespace().collect();
-            if parts.len() >= 4 {
-                Some(Package {
-                    name: parts[0].to_string(),
-                    current_version: parts[1].to_string(),
-                    new_version: parts[3].to_string(),
-                    is_aur: false, // Official repo packages
-                })
-            } else {
-                None
+
+            // Validate we have all required fields
+            if parts.len() < 4 {
+                if !line.trim().is_empty() {
+                    eprintln!("Warning: Skipping malformed Pacman line (insufficient fields): {}", line);
+                }
+                return None;
             }
+
+            // Validate the arrow separator is in the expected position
+            if parts.get(2)? != &"->" {
+                eprintln!("Warning: Skipping Pacman line with unexpected format (missing '->'): {}", line);
+                return None;
+            }
+
+            let name = parts.get(0)?.to_string();
+            let current_version = parts.get(1)?.to_string();
+            let new_version = parts.get(3)?.to_string();
+
+            // Validate non-empty fields
+            if name.is_empty() || current_version.is_empty() || new_version.is_empty() {
+                eprintln!("Warning: Skipping Pacman line with empty fields: {}", line);
+                return None;
+            }
+
+            Some(Package {
+                name,
+                current_version,
+                new_version,
+                is_aur: false,
+            })
         })
         .collect()
 }

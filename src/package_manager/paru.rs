@@ -94,22 +94,46 @@ impl ParuPackageManager {
     }
 }
 
+/// Parse Paru AUR update output into a list of packages
+///
+/// Expected format: "package current_version -> new_version"
+/// Example: "yay 12.0.5-1 -> 12.1.0-1"
 fn parse_paru_output(output: &str) -> Vec<Package> {
     output
         .lines()
         .filter_map(|line| {
             let parts: Vec<&str> = line.split_whitespace().collect();
-            // Expected format: "package-name old-version -> new-version"
-            if parts.len() >= 4 && parts[2] == "->" {
-                Some(Package {
-                    name: parts[0].to_string(),
-                    current_version: parts[1].to_string(),
-                    new_version: parts[3].to_string(),
-                    is_aur: true, // All packages from paru -Qua are AUR
-                })
-            } else {
-                None
+
+            // Validate we have all required fields
+            if parts.len() < 4 {
+                if !line.trim().is_empty() {
+                    eprintln!("Warning: Skipping malformed Paru line (insufficient fields): {}", line);
+                }
+                return None;
             }
+
+            // Validate the arrow separator
+            if parts.get(2)? != &"->" {
+                eprintln!("Warning: Skipping Paru line with unexpected format (missing '->'): {}", line);
+                return None;
+            }
+
+            let name = parts.get(0)?.to_string();
+            let current_version = parts.get(1)?.to_string();
+            let new_version = parts.get(3)?.to_string();
+
+            // Validate non-empty fields
+            if name.is_empty() || current_version.is_empty() || new_version.is_empty() {
+                eprintln!("Warning: Skipping Paru line with empty fields: {}", line);
+                return None;
+            }
+
+            Some(Package {
+                name,
+                current_version,
+                new_version,
+                is_aur: true,
+            })
         })
         .collect()
 }

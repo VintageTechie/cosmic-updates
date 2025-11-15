@@ -649,7 +649,7 @@ impl UpdateChecker {
         let _ = Notification::new()
             .summary("Updates Applet for COSMIC")
             .body(&body)
-            .icon("cosmic-updates")
+            .icon("cosmic-ext-applet-updates")
             .urgency(urgency)
             .show();
     }
