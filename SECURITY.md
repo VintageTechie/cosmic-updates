@@ -11,7 +11,7 @@
 If you discover a security vulnerability:
 
 1. **DO NOT** open a public issue
-2. Contact via Codeberg private message or email
+2. Contact via GitHub private message or email (john@vintagetechie.com)
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce

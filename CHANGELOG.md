@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - 🔐 GPG-signed APT repository for secure package installation
 - 🔑 Automated GPG signing in publish workflow
-- 📦 Public key distribution via Codeberg Pages
+- 📦 Public key distribution via GitHub Pages
 - 🧊 Custom penguin icon in applet picker (fixed)
 
 ### Changed
@@ -99,16 +99,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Release Links
 
-- **Source Code**: https://codeberg.org/VintageTechie/cosmic-updates
-- **APT Repository**: https://vintagetechie.codeberg.page/cosmic-updates
-- **AUR Packages**: 
-  - Binary: https://aur.archlinux.org/packages/cosmic-updates-bin
-  - Git: https://aur.archlinux.org/packages/cosmic-updates-git
-- **Issues**: https://codeberg.org/VintageTechie/cosmic-updates/issues
+- **Source Code**: https://github.com/VintageTechie/cosmic-ext-applet-updates
+- **APT Repository**: https://apt.vintagetechie.com
+- **AUR Packages**:
+  - Binary: https://aur.archlinux.org/packages/cosmic-ext-applet-updates-bin
+  - Git: https://aur.archlinux.org/packages/cosmic-ext-applet-updates-git
+- **Issues**: https://github.com/VintageTechie/cosmic-ext-applet-updates/issues
 
 ---
 
-[1.0.0]: https://codeberg.org/VintageTechie/cosmic-updates/releases/tag/v1.0.0
-[0.4.0]: https://codeberg.org/VintageTechie/cosmic-updates/releases/tag/v0.4.0
-[0.3.0]: https://codeberg.org/VintageTechie/cosmic-updates/releases/tag/v0.3.0
-[0.2.0]: https://codeberg.org/VintageTechie/cosmic-updates/releases/tag/v0.2.0
+[1.0.0]: https://github.com/VintageTechie/cosmic-ext-applet-updates/releases/tag/v1.0.0
+[0.4.0]: https://github.com/VintageTechie/cosmic-ext-applet-updates/releases/tag/v0.4.0
+[0.3.0]: https://github.com/VintageTechie/cosmic-ext-applet-updates/releases/tag/v0.3.0
+[0.2.0]: https://github.com/VintageTechie/cosmic-ext-applet-updates/releases/tag/v0.2.0
