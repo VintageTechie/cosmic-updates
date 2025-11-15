@@ -1,13 +1,13 @@
 Package: cosmic-ext-applet-updates
-Version: 1.1.0
+Version: 1.1.2
 Architecture: amd64
 Maintainer: VintageTechie <https://vintagetechie.com\>
 Depends: cosmic-session
-Filename: pool/main/cosmic-ext-applet-updates_1.1.0_amd64.deb
-Size: 6649980
-MD5sum: a6ae366704c5f28ad6e21e19fc5a8b89
-SHA1: a8959cf6596cec6065ae74f94316b87edfe182e7
-SHA256: 9595e2880d00147edc75fac777d468f99cf4fd197cc938c6526e636ebdbcc05c
+Filename: pool/main/cosmic-ext-applet-updates_1.1.2_amd64.deb
+Size: 6671132
+MD5sum: ecc0e89ee8907ae2c352bf9e643fbcb1
+SHA1: 4e7ac29ab9d35646b57b5643e07ac8953458f076
+SHA256: 8514af7d77213c9fdb7ae395f6104b8c74f63c26dbc2d173ecf40d364f605b46
 Section: utils
 Priority: optional
 Homepage: https://github.com/VintageTechie/cosmic-ext-applet-updates
