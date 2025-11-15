@@ -751,14 +751,18 @@ impl UpdateChecker {
         let terminal_help = widget::text("(auto, cosmic-term, konsole, etc.)")
             .size(11);
 
-        let terminal_row = widget::row()
+        let terminal_input_row = widget::row()
             .push(terminal_label)
             .push(widget::horizontal_space())
             .push(terminal_input)
-            .push(terminal_help)
             .spacing(12)
-            .padding([8, 0])
             .align_y(Alignment::Center);
+
+        let terminal_section = widget::column()
+            .push(terminal_input_row)
+            .push(widget::vertical_space().height(Length::Fixed(4.0)))
+            .push(terminal_help)
+            .padding([8, 0]);
 
         // Buttons
         let buttons = widget::row()
@@ -776,7 +780,7 @@ impl UpdateChecker {
             .push(widget::vertical_space().height(Length::Fixed(12.0)))
             .push(threshold_row)
             .push(widget::vertical_space().height(Length::Fixed(12.0)))
-            .push(terminal_row);
+            .push(terminal_section);
 
         // Show error message if present
         if let Some(error) = &self.error {
