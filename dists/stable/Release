@@ -1,13 +1,24 @@
-Origin: VintageTechie
-Label: cosmic-updates
-Suite: stable
-Codename: stable
 Architectures: amd64
+Codename: stable
 Components: main
-Description: COSMIC Updates APT Repository
+Date: Sat, 15 Nov 2025 01:37:54 +0000
+Description: Updates Applet for COSMIC Desktop
+Label: cosmic-ext-applet-updates
+Origin: VintageTechie
+Suite: stable
 MD5Sum:
- 5f70996e9c980f0137120d0db7b09cbb main/binary-amd64/Packages.gz
- 3f919bc25633114ba9927f4749a365d1 main/binary-amd64/Packages
+ 66225f1b8a2184445976e18dadb131e5              209 Release
+ 19ce970e8bbc6854295b9138549532c4             1239 main/binary-amd64/Packages
+ 87c279379950e71b6e8e1e1785fc2159              764 main/binary-amd64/Packages.gz
+SHA1:
+ 284deb56c949209001b539a7fcfb3d675b20d9e1              209 Release
+ d06300cf4859c3dfa0320bac69448235e8502bfe             1239 main/binary-amd64/Packages
+ a1e4e98f61a90daa094266067284ea8a4fb83493              764 main/binary-amd64/Packages.gz
 SHA256:
- 04018453314cc6dc29520e166c0d269ae6f8fc294311470a6a74c282468993d3 main/binary-amd64/Packages.gz
- f2568b3bcfa1da60e4ee02fb0e720106e50b8f066d7ee5166e96e626bce971b7 main/binary-amd64/Packages
+ a20358ebf7078abb58c045769aa194db77fa3e36f8462c15d3531b208a67b018              209 Release
+ cf794fb83ad3f0a710e2bf4198c6d5a363fff1cfbc455c05785cddadc2d0a818             1239 main/binary-amd64/Packages
+ 7369c76b646a6dae28c08738036b1f422ac56b61870bdda55ce2c8ffb3467d68              764 main/binary-amd64/Packages.gz
+SHA512:
+ 955cc7870861c29b21497a6319119abf0f6eee0c51fd916d79007dad156e8f52a78cb3f299f45bb8a1e9ce960446965df91a4fcd63a08e294fc1bfe0191ad670              209 Release
+ a88e3fa85239807eed7a388dbb04a581ed2250bc738585f945ad686312cd95fab5e35015b1007cb96638c378f357194a6ac922585af19745cbb72410d7c95718             1239 main/binary-amd64/Packages
+ 1e37395e3a5234efefd9c0d3700bb22806d8f03c16e055c22ef22b0b524261af74c502f518f3310be46499124e610ca83cb73fa3bc1b212c9c5597749ccc0849              764 main/binary-amd64/Packages.gz

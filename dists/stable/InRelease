@@ -1,32 +1,43 @@
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA512
 
-Origin: VintageTechie
-Label: cosmic-updates
-Suite: stable
-Codename: stable
 Architectures: amd64
+Codename: stable
 Components: main
-Description: COSMIC Updates APT Repository
+Date: Sat, 15 Nov 2025 01:37:54 +0000
+Description: Updates Applet for COSMIC Desktop
+Label: cosmic-ext-applet-updates
+Origin: VintageTechie
+Suite: stable
 MD5Sum:
- 5f70996e9c980f0137120d0db7b09cbb main/binary-amd64/Packages.gz
- 3f919bc25633114ba9927f4749a365d1 main/binary-amd64/Packages
+ 66225f1b8a2184445976e18dadb131e5              209 Release
+ 19ce970e8bbc6854295b9138549532c4             1239 main/binary-amd64/Packages
+ 87c279379950e71b6e8e1e1785fc2159              764 main/binary-amd64/Packages.gz
+SHA1:
+ 284deb56c949209001b539a7fcfb3d675b20d9e1              209 Release
+ d06300cf4859c3dfa0320bac69448235e8502bfe             1239 main/binary-amd64/Packages
+ a1e4e98f61a90daa094266067284ea8a4fb83493              764 main/binary-amd64/Packages.gz
 SHA256:
- 04018453314cc6dc29520e166c0d269ae6f8fc294311470a6a74c282468993d3 main/binary-amd64/Packages.gz
- f2568b3bcfa1da60e4ee02fb0e720106e50b8f066d7ee5166e96e626bce971b7 main/binary-amd64/Packages
+ a20358ebf7078abb58c045769aa194db77fa3e36f8462c15d3531b208a67b018              209 Release
+ cf794fb83ad3f0a710e2bf4198c6d5a363fff1cfbc455c05785cddadc2d0a818             1239 main/binary-amd64/Packages
+ 7369c76b646a6dae28c08738036b1f422ac56b61870bdda55ce2c8ffb3467d68              764 main/binary-amd64/Packages.gz
+SHA512:
+ 955cc7870861c29b21497a6319119abf0f6eee0c51fd916d79007dad156e8f52a78cb3f299f45bb8a1e9ce960446965df91a4fcd63a08e294fc1bfe0191ad670              209 Release
+ a88e3fa85239807eed7a388dbb04a581ed2250bc738585f945ad686312cd95fab5e35015b1007cb96638c378f357194a6ac922585af19745cbb72410d7c95718             1239 main/binary-amd64/Packages
+ 1e37395e3a5234efefd9c0d3700bb22806d8f03c16e055c22ef22b0b524261af74c502f518f3310be46499124e610ca83cb73fa3bc1b212c9c5597749ccc0849              764 main/binary-amd64/Packages.gz
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEJtLelu2beWTSUC/9KkVrBn7gckgFAmkTy40ACgkQKkVrBn7g
-ckj6bg/8DAE+rXgL4fCDYTT64l1WdvfGTxkU+UnGno7WKmMv8Tml9fw/c/lZDbrv
-VzRlxblDx5ag/a8K3WSAj021kz9EZTZq3cugzZu+Uzkwc7iGMwDx3fHyEUWx85J6
-Lxf3i6quhBoZ8dlQepwVJjXlvueF41muQkeKPUXSqK5iwHMhqxaHvipSKihp+xkn
-8jwjUwpwA63cp20bxOUNBJmG2nxDlhBnNqGoOBnLdHYZVK7YOBJgDoKd/3ZuLjwG
-WDV4Vsn/lLw/Fmhl5pc9RcoIFtczjqUxdZb6m73flyhRmBsh5l9uyPe6BZMHdm05
-J+iqUGE4DhqNfZ4e8GyS3wnAkzuoz6Ci1uAQ2C2UjbqlgO5IB8qdvVYv1r+E8FOX
-98i/FIh3R9SSu6Yyrqxogcdxqu94LjreZ79kdIGuxxfuXau5R3PKY/9AMjHo/7be
-rcy8BBb2XVANtze3+XDlufFksrxw87Y97wnpG2e720d3R29azAuyyeE2xHhD/PED
-tUSl8gACc8CLo/zRq+brRGVOmhvWqThEzBMX1Ss2K6kyT2XmlpF2dKlVhl2osu0c
-OKSlwV8HxXXxd0Sj3Zu5aeYWeP7inw71sk29soJQR1Es9jJRNQ1aXc9+l/imrVgt
-UtbvgWx7X5xiD3+Vnrr+hmVCYWmV5EnFb6+Qok9Og508hSnvUUQ=
-=N3SC
+iQIzBAEBCgAdFiEEjK70zXKIm40o3MHYGZSJ8Vl58W4FAmkX2cAACgkQGZSJ8Vl5
+8W6uKQ//aevXoIpg3XaMABUOYi+csHnwsj/PN82QUKmv7qySPkcqHm6k9vjSGVYG
+RTrUuQqzRkYw+bb7aaroM36cfzNDA6PIH+yQ30xnU5HUd6ECsI6lkKO8A3XgHnCo
+JtLQBUhOwmqTWh89csYgxCKl51GV9NqDu1HWJLTkghMLWwD7xh/T8w/CP2M5XpAU
+FZi7p7zqbsEBLVZfBMKyRpks7YYQnf8smF2Z0yJQScJI+f5DgQlzpd6tv1Wgh3WU
+Bov5b34zgc+3TIGM/aLdScoEet29sGFsXxmehljx+aA8FvI+3BWv8Aeku0v83eyL
+/jQIe/lWEcRslUV3Vjh47ZdnsTG39jfbCYNQBGpT3DvUHvZi3n6n25q5ofs4OJ+w
+pUhZZZ3tXV7zcKZ7Cx2oeb+466VfPp7S3gbidHIxMt7Ris1XxhCPLeyuQun5Cd3A
+vTqv4oS4dv04t0Zhkxc6aoezhUogFaSJd2KBRvwWHMw4NkMY97/F7IDQi8xpt+Lp
+jNd8OXBtp2UIhpkcXk6+4x+8on8Ivsg05lL5Rqlfl+eCvlUAl0hKTAjIPIlIDFDC
+BkmnDyJkiYVjMxQMSBVXUoLl+ezpErwqZ9cIsaf4ICG2LFUwMY6rezIZlId/HT8y
+fr7Jysi2GQV8hJIHLtH3KFAl9pRfvZxiXZgOkb1+Ps0tE7KkAkA=
+=SBg+
 -----END PGP SIGNATURE-----
