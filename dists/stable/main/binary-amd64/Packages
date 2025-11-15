@@ -1,6 +1,8 @@
 Package: cosmic-ext-applet-updates
-Version: 1.1.2
 Architecture: amd64
+Version: 1.1.2
+Priority: optional
+Section: utils
 Maintainer: VintageTechie <https://vintagetechie.com\>
 Depends: cosmic-session
 Filename: pool/main/cosmic-ext-applet-updates_1.1.2_amd64.deb
@@ -8,8 +10,7 @@ Size: 6671132
 MD5sum: ecc0e89ee8907ae2c352bf9e643fbcb1
 SHA1: 4e7ac29ab9d35646b57b5643e07ac8953458f076
 SHA256: 8514af7d77213c9fdb7ae395f6104b8c74f63c26dbc2d173ecf40d364f605b46
-Section: utils
-Priority: optional
+SHA512: 7fdb05b4bfc28295e3d11926de5e50e4a2d7062a634f1d9a3e3d9c88e6eeaac334fd46abe8ce863d4afc43c56241de4324c76ce9217022d985eb36207f1bfecc
 Homepage: https://github.com/VintageTechie/cosmic-ext-applet-updates
 Description: Updates Applet for COSMIC Desktop
  A community COSMIC Desktop applet that monitors package updates with support for

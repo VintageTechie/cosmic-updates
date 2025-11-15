@@ -1,55 +1,43 @@
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA512
 
-Origin: VintageTechie
-Label: cosmic-ext-applet-updates
-Suite: stable
-Codename: stable
 Architectures: amd64
+Codename: stable
 Components: main
-Description: Updates Applet for COSMIC APT Repository
-Date: Wed, 12 Nov 2025 20:40:50 +0000
-Valid-Until: Tue, 10 Feb 2026 20:40:50 +0000
+Date: Sat, 15 Nov 2025 01:37:54 +0000
+Description: Updates Applet for COSMIC Desktop
+Label: cosmic-ext-applet-updates
+Origin: VintageTechie
+Suite: stable
 MD5Sum:
- 81b3b7f46120ca5a8c9b66dba51b51c4 35 main/i18n/Translation-en.gz
- d41d8cd98f00b204e9800998ecf8427e 0 main/i18n/Translation-en
- c58be5ccf996e4f961311c9b4c6e7f72 670 main/binary-amd64/Packages.gz
- 68b329da9893e34099c7d8ad5cb9c940 1 main/binary-amd64/cnf-commands
- 68b329da9893e34099c7d8ad5cb9c940 1 main/binary-amd64/Components
- f2d89d4db51d7729458e8c5119234b02 32 main/binary-amd64/Components.gz
- 4197e03484415a5620f576c4b80385e5 34 main/binary-amd64/cnf-commands.gz
- fc91031ad210047cbef945f75cfbe515 1102 main/binary-amd64/Packages
+ 66225f1b8a2184445976e18dadb131e5              209 Release
+ 19ce970e8bbc6854295b9138549532c4             1239 main/binary-amd64/Packages
+ 87c279379950e71b6e8e1e1785fc2159              764 main/binary-amd64/Packages.gz
+SHA1:
+ 284deb56c949209001b539a7fcfb3d675b20d9e1              209 Release
+ d06300cf4859c3dfa0320bac69448235e8502bfe             1239 main/binary-amd64/Packages
+ a1e4e98f61a90daa094266067284ea8a4fb83493              764 main/binary-amd64/Packages.gz
 SHA256:
- 98ac9ef510466dcfd7136a5e0c193a28f26c3f50ff6946d798768aa2cd8792ae 35 main/i18n/Translation-en.gz
- e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/i18n/Translation-en
- 9d0298882dccee66ca9d3db5a59f6795f84e82ee7c11a233e1336c03c076c1e4 670 main/binary-amd64/Packages.gz
- 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b 1 main/binary-amd64/cnf-commands
- 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b 1 main/binary-amd64/Components
- 95bba5c697d1209f289ce48d1a0033a20d15665f906c4e03e5daa098e525636f 32 main/binary-amd64/Components.gz
- a64ea7b4e3aa76ed37728f43754a8c9da4b8478060ef34f29cfba4d546d8f93d 34 main/binary-amd64/cnf-commands.gz
- 597371e79e1cc3642f38b6495bc1dd55cb59224acb9f3ce4449d430a7a61e99c 1102 main/binary-amd64/Packages
+ a20358ebf7078abb58c045769aa194db77fa3e36f8462c15d3531b208a67b018              209 Release
+ cf794fb83ad3f0a710e2bf4198c6d5a363fff1cfbc455c05785cddadc2d0a818             1239 main/binary-amd64/Packages
+ 7369c76b646a6dae28c08738036b1f422ac56b61870bdda55ce2c8ffb3467d68              764 main/binary-amd64/Packages.gz
 SHA512:
- 80b5b53e1ccb2615e1fa24fcc045230cda3e3d848b3964d6bfb7db5189129a23be3e9c14377056c713e05109101abaa794c9876de23915ca19a2ece31d8467a7 35 main/i18n/Translation-en.gz
- cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e 0 main/i18n/Translation-en
- e85e4e1c8f3eb872d5acc6c0de0a0a05626c2aee6c388bbf70b5d61c771981ebc7bee84b5e589332b53fb6431ea545a62866d178c814f2f7f159ef40065c5ff7 670 main/binary-amd64/Packages.gz
- be688838ca8686e5c90689bf2ab585cef1137c999b48c70b92f67a5c34dc15697b5d11c982ed6d71be1e1e7f7b4e0733884aa97c3f7a339a8ed03577cf74be09 1 main/binary-amd64/cnf-commands
- be688838ca8686e5c90689bf2ab585cef1137c999b48c70b92f67a5c34dc15697b5d11c982ed6d71be1e1e7f7b4e0733884aa97c3f7a339a8ed03577cf74be09 1 main/binary-amd64/Components
- 397a0c0f85ca66178c06f4282a7978b279436670c23060b4d02c6ee110c2a4e03e6bff06ff48f68be95a324a5509506555f0ebc0193dc1d0fdfb3d28b58cfe61 32 main/binary-amd64/Components.gz
- aefda93518af19a75795fb22c7de903a4116c5a4936ce9fd76e59dc7df13c062f36aabf88ebdf16baafe3dcf83f6a5614e71b883181c2a177a4ab4ae239c54b5 34 main/binary-amd64/cnf-commands.gz
- bb1bbf357bcb1a603ee090637d005651c020f59f1f6afae6fdcb979e1de63d1e8902ef40ac646150baf355081c4962973d35d7a1619389fe88779aa093e4e1be 1102 main/binary-amd64/Packages
+ 955cc7870861c29b21497a6319119abf0f6eee0c51fd916d79007dad156e8f52a78cb3f299f45bb8a1e9ce960446965df91a4fcd63a08e294fc1bfe0191ad670              209 Release
+ a88e3fa85239807eed7a388dbb04a581ed2250bc738585f945ad686312cd95fab5e35015b1007cb96638c378f357194a6ac922585af19745cbb72410d7c95718             1239 main/binary-amd64/Packages
+ 1e37395e3a5234efefd9c0d3700bb22806d8f03c16e055c22ef22b0b524261af74c502f518f3310be46499124e610ca83cb73fa3bc1b212c9c5597749ccc0849              764 main/binary-amd64/Packages.gz
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEjK70zXKIm40o3MHYGZSJ8Vl58W4FAmkXbv4ACgkQGZSJ8Vl5
-8W5VHRAAhxH7Z6ULxQcht368Oppdm0sq4iIm/kLy+sXVCl6nCia/fiEDshxV9ySg
-u+BfhZjupEtYRLs9KrqNH0HwQLKLfm596RXdd0Ux4gcSVD8/6t2TMcKAk/fvxzw1
-KtcoTelTWRkj99Ao+gBw0M/IlDaGsn4QZgCl1qAVI5jAU3NLe0+f8dk5rPOq63if
-JpwWa9p9T8aU+lrsF571dESr91twR7e3mh2cMiADAZMKtc5LbNH5z0ipZ37MBi0W
-V2WJZDutnrrbkcbTc+qV1S5CyHDZgN42Jt8yiJc19iMiANYPod7f1o3CVUi/LmQD
-lwgNFxWPjuI206iogoRYaHj0AEEAy2mymMmypzhglgoZEb8b/t3v5fqxpWbbGjtk
-j25QcPvUU1Xi2zv8KcJ3hbHRY9YiPjS7ZT59BglB/zHDjm6jCa8JWCJNGLh8AEYw
-MRIugBotD6FA7UwJy2MsXpSGBoog6aywue/UcJnvnz5wZnNHU9Y4oLy6LeLrVo+h
-oYCbfc2IWjga0VLxB2cpOMhE1YEJUM5x5cJf/nq85cGwasFIB9oijSH5BAWYIiqj
-8F/dM5Q4pIYPUWts/lfK+BJdUvoB4bK7LGbr7vrnpqzJMSsjOn1pbBu8aLPNVvvV
-wNMmBMhiv/Clb9xvdpukjh6bL2YVDTg1JgVgOVe/uFF+w2TkH/I=
-=/B+D
+iQIzBAEBCgAdFiEEjK70zXKIm40o3MHYGZSJ8Vl58W4FAmkX2cAACgkQGZSJ8Vl5
+8W6uKQ//aevXoIpg3XaMABUOYi+csHnwsj/PN82QUKmv7qySPkcqHm6k9vjSGVYG
+RTrUuQqzRkYw+bb7aaroM36cfzNDA6PIH+yQ30xnU5HUd6ECsI6lkKO8A3XgHnCo
+JtLQBUhOwmqTWh89csYgxCKl51GV9NqDu1HWJLTkghMLWwD7xh/T8w/CP2M5XpAU
+FZi7p7zqbsEBLVZfBMKyRpks7YYQnf8smF2Z0yJQScJI+f5DgQlzpd6tv1Wgh3WU
+Bov5b34zgc+3TIGM/aLdScoEet29sGFsXxmehljx+aA8FvI+3BWv8Aeku0v83eyL
+/jQIe/lWEcRslUV3Vjh47ZdnsTG39jfbCYNQBGpT3DvUHvZi3n6n25q5ofs4OJ+w
+pUhZZZ3tXV7zcKZ7Cx2oeb+466VfPp7S3gbidHIxMt7Ris1XxhCPLeyuQun5Cd3A
+vTqv4oS4dv04t0Zhkxc6aoezhUogFaSJd2KBRvwWHMw4NkMY97/F7IDQi8xpt+Lp
+jNd8OXBtp2UIhpkcXk6+4x+8on8Ivsg05lL5Rqlfl+eCvlUAl0hKTAjIPIlIDFDC
+BkmnDyJkiYVjMxQMSBVXUoLl+ezpErwqZ9cIsaf4ICG2LFUwMY6rezIZlId/HT8y
+fr7Jysi2GQV8hJIHLtH3KFAl9pRfvZxiXZgOkb1+Ps0tE7KkAkA=
+=SBg+
 -----END PGP SIGNATURE-----
