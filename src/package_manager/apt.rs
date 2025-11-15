@@ -122,7 +122,7 @@ fn parse_apt_output(output: &str) -> Vec<Package> {
             }
 
             // Extract package name (before the '/')
-            let name = parts.get(0)?.split('/').next()?.to_string();
+            let name = parts.first()?.split('/').next()?.to_string();
             if name.is_empty() {
                 eprintln!("Warning: Skipping APT line with empty package name: {}", line);
                 return None;

@@ -2,26 +2,26 @@
 
 A universal package update checker applet for COSMIC Desktop that supports multiple package managers with AUR support, desktop notifications, and configurable settings.
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.1.2-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)
 
 ## Features
 
-- 🐧 **Custom penguin mascot** - Changes when updates are available
-- 🎨 **Color-coded versions** - Red for old, green for new versions
-- 🔔 **Desktop notifications** - Alerts when new updates are available
-- 📦 **Multi-package manager support**:
+- **Custom penguin mascot** - Changes when updates are available
+- **Color-coded versions** - Red for old, green for new versions
+- **Desktop notifications** - Alerts when new updates are available
+- **Multi-package manager support**:
   - APT (Debian, Ubuntu, Pop!_OS)
   - Pacman (Arch, Manjaro, CachyOS)
   - AUR support via paru or yay
-- ⚙️ **Configurable settings** - Check intervals, notifications, urgency threshold
-- 📜 **Scrollable package list** - Handles large update lists
-- 🔄 **Auto-detection** - Detects your package manager automatically
-- ⚡ **One-click upgrades** - Terminal window for progress
-- 💾 **Persistent configuration** - Settings saved across sessions
-- 🏷️ **AUR badges** - Visual distinction for AUR packages
-- 📊 **Separate counters** - Shows official vs AUR update counts
+- **Configurable settings** - Check intervals, notifications, urgency threshold, terminal preference
+- **Scrollable package list** - Handles large update lists
+- **Auto-detection** - Detects your package manager and terminal automatically
+- **One-click upgrades** - Terminal window for progress tracking
+- **Persistent configuration** - Settings saved across sessions
+- **AUR badges** - Visual distinction for AUR packages
+- **Separate counters** - Shows official vs AUR update counts
 
 ## Installation
 
@@ -40,11 +40,11 @@ sudo apt install cosmic-ext-applet-updates
 
 #### Option 2: Direct .deb Download
 
-**[📥 Download cosmic-ext-applet-updates_1.1.0_amd64.deb](https://apt.vintagetechie.com/pool/main/cosmic-ext-applet-updates_1.1.0_amd64.deb)**
+**[Download cosmic-ext-applet-updates_1.1.2_amd64.deb](https://apt.vintagetechie.com/pool/main/cosmic-ext-applet-updates_1.1.2_amd64.deb)**
 
 ```bash
-wget https://apt.vintagetechie.com/pool/main/cosmic-ext-applet-updates_1.1.0_amd64.deb
-sudo apt install ./cosmic-ext-applet-updates_1.1.0_amd64.deb
+wget https://apt.vintagetechie.com/pool/main/cosmic-ext-applet-updates_1.1.2_amd64.deb
+sudo apt install ./cosmic-ext-applet-updates_1.1.2_amd64.deb
 ```
 
 ### Arch Linux / CachyOS / Manjaro
@@ -92,8 +92,8 @@ After installation:
 
 ### Icons
 
-- 🐧 **Normal penguin** - System is up to date
-- 🐧‼ **Alert penguin** - Updates available!
+- **Normal penguin** - System is up to date
+- **Alert penguin** - Updates available
 
 ### Interface
 
@@ -107,9 +107,10 @@ Click the applet icon to:
 ### Settings
 
 Configure the applet behavior:
-- **Check Interval**: Choose from 5 to 120 minutes
+- **Check Interval**: Choose from 5 to 120 minutes (applies immediately)
 - **Enable Notifications**: Toggle desktop notifications on/off
 - **Urgency Threshold**: Set when notifications become urgent (default: 10 updates)
+- **Terminal Preference**: Choose your preferred terminal or use auto-detection
 - Settings are automatically saved to `~/.config/cosmic-ext-applet-updates/config.toml`
 
 ### Notifications
@@ -175,12 +176,12 @@ To add support for a new package manager:
 
 **Debian package:**
 ```bash
-./build-deb.sh 1.1.0
+./build-deb.sh 1.1.2
 ```
 
 **Publish to APT repository:**
 ```bash
-./publish-to-ppm.sh 1.1.0
+./publish-to-ppm.sh 1.1.2
 ```
 
 ## Configuration
@@ -237,48 +238,57 @@ paru -R cosmic-ext-applet-updates-bin
 
 ## Changelog
 
+### Version 1.1.2 (2025-11-14)
+**Reliability & Usability Improvements**
+- Fixed upgrade detection using process monitoring (pgrep)
+- Settings now apply immediately without restart
+- Configurable terminal emulator with auto-detection
+- Improved parser robustness with comprehensive validation
+- Fixed notification icon name
+- Enhanced error logging for parser failures
+
 ### Version 1.1.0 (2025-11-12)
 **Notifications & Namespace Rename**
-- 🔔 Desktop notifications for new updates
-- ⚙️ Notification settings (enable/disable, urgency threshold)
-- 💾 State tracking for intelligent notification triggers
-- 📦 **BREAKING:** Renamed to `cosmic-ext-applet-updates` per System76 guidance
-- 🆔 Updated APP_ID to `com.vintagetechie.CosmicExtAppletUpdates`
-- 📁 Config auto-migrates from `~/.config/cosmic-updates/`
-- 🏷️ Display name: "Updates Applet for COSMIC"
-- 🔗 Repository moved to GitHub
+- Desktop notifications for new updates
+- Notification settings (enable/disable, urgency threshold)
+- State tracking for intelligent notification triggers
+- **BREAKING:** Renamed to `cosmic-ext-applet-updates` per System76 guidance
+- Updated APP_ID to `com.vintagetechie.CosmicExtAppletUpdates`
+- Config auto-migrates from `~/.config/cosmic-updates/`
+- Display name: "Updates Applet for COSMIC"
+- Repository moved to GitHub
 
 ### Version 1.0.0 (2025-11-11)
 **Production Release**
-- 🔐 GPG-signed APT repository
-- 🏠 Migrated to GitHub Pages hosting
-- 🐧 Fixed applet picker icon (tux-normal)
-- 📚 Comprehensive documentation
-- ✅ Production-ready stability
+- GPG-signed APT repository
+- Migrated to GitHub Pages hosting
+- Fixed applet picker icon (tux-normal)
+- Comprehensive documentation
+- Production-ready stability
 
 ### Version 0.4.0 (2025-11-09)
 **AUR Support Release**
-- 🎯 Full AUR support via paru/yay
-- 🏷️ Visual [AUR] badges for AUR packages
-- 📊 Separate counters (official vs AUR)
-- ⚙️ Settings UI with configurable check intervals
-- 💾 Persistent configuration (TOML)
-- 📦 Published to AUR
+- Full AUR support via paru/yay
+- Visual [AUR] badges for AUR packages
+- Separate counters (official vs AUR)
+- Settings UI with configurable check intervals
+- Persistent configuration (TOML)
+- Published to AUR
 
 ### Version 0.3.0 (2025-11-07)
 **Universal Package Manager Support**
-- 🔄 Renamed to cosmic-updates
-- 🗂️ Refactored architecture - modular design
-- 🔍 Auto-detection of package manager
-- 🆔 Updated APP_ID
-- 📦 Arch/CachyOS support - Full Pacman integration
+- Renamed to cosmic-updates
+- Refactored architecture - modular design
+- Auto-detection of package manager
+- Updated APP_ID
+- Arch/CachyOS support - Full Pacman integration
 
 ### Version 0.2.0 (2025-11-06)
 **UI Enhancements**
-- 🎨 Color-coded version numbers (red/green)
-- 📜 Scrollable package list
-- 🏷️ Version display in header
-- 🎯 Fixed icon alignment
+- Color-coded version numbers (red/green)
+- Scrollable package list
+- Version display in header
+- Fixed icon alignment
 
 ### Version 0.1.x (2025-11-05)
 **Initial Release**
@@ -319,14 +329,14 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-**Special thanks to Ben** for his patience and understanding when I disappeared down the rabbit hole developing this project. Your support means everything! ❤️
+Special thanks to Ben for his patience and understanding when I disappeared down the rabbit hole developing this project.
 
 ## Credits
 
-**Developed by [VintageTechie](https://vintagetechie.com)** for the COSMIC community 🚀
+Developed by [VintageTechie](https://vintagetechie.com) for the COSMIC community.
 
 Built with:
-- [Rust](https://www.rust-lang.org/) 🦀
+- [Rust](https://www.rust-lang.org/)
 - [libcosmic](https://github.com/pop-os/libcosmic)
 
 ## Links
@@ -361,4 +371,4 @@ Built with:
 
 ---
 
-**Made with ❤️ for the COSMIC Desktop community**
+Made for the COSMIC Desktop community

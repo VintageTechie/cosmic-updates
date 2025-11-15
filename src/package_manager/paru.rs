@@ -51,6 +51,7 @@ impl ParuPackageManager {
         .map_err(|e| format!("Task join error: {}", e))?
     }
 
+    #[allow(dead_code)]
     pub async fn is_running(&self) -> bool {
         task::spawn_blocking(|| {
             // Check both lock file and running processes
@@ -118,7 +119,7 @@ fn parse_paru_output(output: &str) -> Vec<Package> {
                 return None;
             }
 
-            let name = parts.get(0)?.to_string();
+            let name = parts.first()?.to_string();
             let current_version = parts.get(1)?.to_string();
             let new_version = parts.get(3)?.to_string();
 
