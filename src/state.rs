@@ -2,17 +2,14 @@ use crate::utils;
 use serde::{Deserialize, Serialize};
 use std::fs;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// Persistent state for tracking notification behavior
+///
+/// Stores information between app restarts to enable intelligent notification logic,
+/// such as only notifying when the update count increases.
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct State {
+    /// Number of available updates from the last check
     pub last_update_count: usize,
-}
-
-impl Default for State {
-    fn default() -> Self {
-        Self {
-            last_update_count: 0,
-        }
-    }
 }
 
 impl State {

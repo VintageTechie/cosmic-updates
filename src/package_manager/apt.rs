@@ -30,12 +30,24 @@ impl AptPackageManager {
         .map_err(|e| format!("Task join error: {}", e))?
     }
 
-    pub async fn run_upgrade(&self) -> Result<(), String> {
-        task::spawn_blocking(|| {
-            StdCommand::new("cosmic-term")
+    /// Launch APT upgrade in a terminal emulator
+    ///
+    /// Spawns the specified terminal with an interactive APT upgrade session.
+    /// Uses pkexec for privilege escalation to perform system package upgrades.
+    ///
+    /// # Arguments
+    /// * `terminal` - Terminal emulator to use (e.g., "cosmic-term", "konsole")
+    ///
+    /// # Returns
+    /// * `Ok(())` - Terminal process spawned successfully
+    /// * `Err(String)` - Failed to spawn terminal
+    pub async fn run_upgrade(&self, terminal: &str) -> Result<(), String> {
+        let terminal = terminal.to_string();
+        task::spawn_blocking(move || {
+            StdCommand::new(&terminal)
                 .args(["-e", "pkexec", "apt", "upgrade", "-y"])
                 .spawn()
-                .map_err(|e| format!("Failed to launch terminal: {}", e))?;
+                .map_err(|e| format!("Failed to launch terminal '{}': {}", terminal, e))?;
 
             Ok(())
         })

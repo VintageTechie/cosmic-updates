@@ -61,17 +61,28 @@ impl PackageManager {
         }
     }
 
-    pub async fn run_upgrade(&self) -> Result<(), String> {
+    /// Launch the system upgrade process in a terminal emulator
+    ///
+    /// Opens a terminal window with the appropriate package manager upgrade command.
+    /// Uses privilege escalation (pkexec) where necessary for system package updates.
+    ///
+    /// # Arguments
+    /// * `terminal` - Name of the terminal emulator to use (e.g., "cosmic-term", "konsole")
+    ///
+    /// # Returns
+    /// * `Ok(())` - Terminal launched successfully
+    /// * `Err(String)` - Failed to launch terminal with error message
+    pub async fn run_upgrade(&self, terminal: &str) -> Result<(), String> {
         match self {
-            PackageManager::Apt(pm) => pm.run_upgrade().await,
-            PackageManager::Pacman(pm) => pm.run_upgrade().await,
+            PackageManager::Apt(pm) => pm.run_upgrade(terminal).await,
+            PackageManager::Pacman(pm) => pm.run_upgrade(terminal).await,
             PackageManager::CombinedParu(_pacman, paru) => {
                 // Use paru for upgrade since it handles both official + AUR
-                paru.run_upgrade().await
+                paru.run_upgrade(terminal).await
             }
             PackageManager::CombinedYay(_pacman, yay) => {
                 // Use yay for upgrade since it handles both official + AUR
-                yay.run_upgrade().await
+                yay.run_upgrade(terminal).await
             }
         }
     }

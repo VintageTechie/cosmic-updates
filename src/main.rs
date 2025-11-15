@@ -56,6 +56,8 @@ struct UpdateChecker {
     showing_settings: bool,
     state: State,
     threshold_input_value: String,
+    /// Tracks the last applied check interval to detect changes
+    last_applied_interval: u64,
 }
 
 impl Default for UpdateChecker {
@@ -97,6 +99,7 @@ impl Default for UpdateChecker {
             showing_settings: false,
             state,
             threshold_input_value: config.urgency_threshold.to_string(),
+            last_applied_interval: config.check_interval_minutes,
         }
     }
 }
@@ -136,6 +139,8 @@ enum Message {
     ToggleNotifications(bool),
     /// Update urgency threshold (input string)
     SetUrgencyThreshold(String),
+    /// Update terminal preference (input string)
+    SetTerminal(String),
     /// Save settings
     SaveSettings,
 }
@@ -272,11 +277,12 @@ impl Application for UpdateChecker {
                 Task::none()
             }
             Message::Upgrade => {
-                // Start the upgrade process
+                // Start the upgrade process using configured terminal
                 if let Some(pm) = &self.package_manager {
                     self.error = None;
                     let pm = pm.clone();
-                    Task::perform(async move { pm.run_upgrade().await }, |result| {
+                    let terminal = utils::get_terminal(&self.config.terminal);
+                    Task::perform(async move { pm.run_upgrade(&terminal).await }, |result| {
                         cosmic::Action::App(Message::UpgradeStarted(result))
                     })
                 } else {
@@ -374,7 +380,7 @@ impl Application for UpdateChecker {
                 self.threshold_input_value = input.clone();
                 // Try to parse and validate, update config if valid
                 if let Ok(value) = input.parse::<u32>() {
-                    if value >= MIN_URGENCY_THRESHOLD && value <= MAX_URGENCY_THRESHOLD {
+                    if (MIN_URGENCY_THRESHOLD..=MAX_URGENCY_THRESHOLD).contains(&value) {
                         self.pending_config.urgency_threshold = value;
                     }
                     // If out of bounds, keep the input value but don't update config
@@ -382,10 +388,14 @@ impl Application for UpdateChecker {
                 }
                 Task::none()
             }
+            Message::SetTerminal(terminal) => {
+                self.pending_config.terminal = terminal;
+                Task::none()
+            }
             Message::SaveSettings => {
                 // Validate the input string can be parsed as a valid number
                 match self.threshold_input_value.parse::<u32>() {
-                    Ok(value) if value >= MIN_URGENCY_THRESHOLD && value <= MAX_URGENCY_THRESHOLD => {
+                    Ok(value) if (MIN_URGENCY_THRESHOLD..=MAX_URGENCY_THRESHOLD).contains(&value) => {
                         // Valid value, proceed with save
                         if let Err(e) = self.pending_config.save() {
                             self.error = Some(format!("Failed to save settings: {}", e));
@@ -393,6 +403,8 @@ impl Application for UpdateChecker {
                         } else {
                             // Apply the new config
                             self.config = self.pending_config.clone();
+                            // Update last applied interval to trigger subscription refresh if changed
+                            self.last_applied_interval = self.config.check_interval_minutes;
                             // Go back to main view
                             self.showing_settings = false;
                             Task::none()
@@ -421,15 +433,23 @@ impl Application for UpdateChecker {
         Some(Message::PopupClosed(id))
     }
 
-    /// Set up subscriptions for periodic checks and upgrade polling
+    /// Set up subscriptions for periodic checks and upgrade polling.
+    ///
+    /// Creates time-based subscriptions that drive the applet's background behavior:
+    /// - A periodic update check timer based on user's configured interval
+    /// - An upgrade status poller (when an upgrade is in progress)
+    ///
+    /// The subscription is recreated whenever the check interval changes, ensuring
+    /// settings changes take effect immediately without requiring an app restart.
     fn subscription(&self) -> Subscription<Self::Message> {
         let mut subscriptions = vec![
-            // Check for updates based on config interval
+            // Check for updates based on current config interval
+            // Use last_applied_interval as subscription ID to force recreation when interval changes
             cosmic::iced::time::every(Duration::from_secs(self.config.check_interval_minutes * 60))
                 .map(|_| Message::Tick),
         ];
 
-        // If upgrading, poll every 2 seconds to check if still running
+        // If upgrading, poll every 2 seconds to check if package manager is still running
         if self.upgrading {
             subscriptions.push(
                 cosmic::iced::time::every(Duration::from_secs(2))
@@ -719,6 +739,27 @@ impl UpdateChecker {
             .padding([8, 0])
             .align_y(Alignment::Center);
 
+        // Terminal emulator input
+        let terminal_label = widget::text("Terminal emulator:").size(14);
+        let terminal_input = widget::text_input(
+            "auto",
+            &self.pending_config.terminal
+        )
+        .on_input(Message::SetTerminal)
+        .width(Length::Fixed(150.0));
+
+        let terminal_help = widget::text("(auto, cosmic-term, konsole, etc.)")
+            .size(11);
+
+        let terminal_row = widget::row()
+            .push(terminal_label)
+            .push(widget::horizontal_space())
+            .push(terminal_input)
+            .push(terminal_help)
+            .spacing(12)
+            .padding([8, 0])
+            .align_y(Alignment::Center);
+
         // Buttons
         let buttons = widget::row()
             .push(widget::button::standard("Back").on_press(Message::CloseSettings))
@@ -733,7 +774,9 @@ impl UpdateChecker {
             .push(widget::vertical_space().height(Length::Fixed(12.0)))
             .push(notifications_row)
             .push(widget::vertical_space().height(Length::Fixed(12.0)))
-            .push(threshold_row);
+            .push(threshold_row)
+            .push(widget::vertical_space().height(Length::Fixed(12.0)))
+            .push(terminal_row);
 
         // Show error message if present
         if let Some(error) = &self.error {

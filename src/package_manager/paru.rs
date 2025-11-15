@@ -26,13 +26,24 @@ impl ParuPackageManager {
         .map_err(|e| format!("Task join error: {}", e))?
     }
 
-    pub async fn run_upgrade(&self) -> Result<(), String> {
-        // paru -Syu handles both official repos and AUR
-        task::spawn_blocking(|| {
-            StdCommand::new("cosmic-term")
+    /// Launch Paru upgrade in a terminal emulator
+    ///
+    /// Spawns the specified terminal with a Paru upgrade command that handles
+    /// both official repository packages and AUR packages in a single operation.
+    ///
+    /// # Arguments
+    /// * `terminal` - Terminal emulator to use (e.g., "cosmic-term", "konsole")
+    ///
+    /// # Returns
+    /// * `Ok(())` - Terminal process spawned successfully
+    /// * `Err(String)` - Failed to spawn terminal
+    pub async fn run_upgrade(&self, terminal: &str) -> Result<(), String> {
+        let terminal = terminal.to_string();
+        task::spawn_blocking(move || {
+            StdCommand::new(&terminal)
                 .args(["-e", "paru", "-Syu"])
                 .spawn()
-                .map_err(|e| format!("Failed to launch terminal: {}", e))?;
+                .map_err(|e| format!("Failed to launch terminal '{}': {}", terminal, e))?;
 
             Ok(())
         })

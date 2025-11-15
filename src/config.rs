@@ -2,13 +2,20 @@ use crate::utils;
 use serde::{Deserialize, Serialize};
 use std::fs;
 
+/// Configuration for the update checker applet
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Config {
+    /// How often to check for updates (in minutes)
     pub check_interval_minutes: u64,
+    /// Whether to show desktop notifications when updates are available
     #[serde(default = "default_true")]
     pub enable_notifications: bool,
+    /// Number of updates required to mark notification as critical/urgent
     #[serde(default = "default_urgency_threshold")]
     pub urgency_threshold: u32,
+    /// Preferred terminal emulator (auto-detected if not set or "auto")
+    #[serde(default = "default_terminal")]
+    pub terminal: String,
 }
 
 fn default_true() -> bool {
@@ -19,12 +26,17 @@ fn default_urgency_threshold() -> u32 {
     10 // Default: consider critical when 10+ updates available
 }
 
+fn default_terminal() -> String {
+    "auto".to_string()
+}
+
 impl Default for Config {
     fn default() -> Self {
         Self {
             check_interval_minutes: 30,
             enable_notifications: true,
             urgency_threshold: 10,
+            terminal: "auto".to_string(),
         }
     }
 }
