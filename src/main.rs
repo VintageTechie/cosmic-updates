@@ -26,7 +26,7 @@ const ICON_ALERT: &[u8] = include_bytes!("../icons/hicolor/scalable/apps/tux-ale
 const APP_ID: &str = "com.vintagetechie.CosmicExtAppletUpdates";
 
 /// Application version
-const VERSION: &str = "1.1.1";
+const VERSION: &str = "1.1.2";
 
 /// Minimum urgency threshold value
 const MIN_URGENCY_THRESHOLD: u32 = 1;
