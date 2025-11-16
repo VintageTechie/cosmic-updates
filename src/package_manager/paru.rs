@@ -40,8 +40,10 @@ impl ParuPackageManager {
     pub async fn run_upgrade(&self, terminal: &str) -> Result<(), String> {
         let terminal = terminal.to_string();
         task::spawn_blocking(move || {
+            // Use bash -c to chain the upgrade command with a prompt to keep terminal open
+            let command = "paru -Syu; echo ''; echo 'Press Enter to close...'; read";
             StdCommand::new(&terminal)
-                .args(["-e", "paru", "-Syu"])
+                .args(["-e", "bash", "-c", command])
                 .spawn()
                 .map_err(|e| format!("Failed to launch terminal '{}': {}", terminal, e))?;
 
